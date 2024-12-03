@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "550755317362",
+    "project_id": "mobile-project-socialshop",
+    "storage_bucket": "mobile-project-socialshop.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:550755317362:android:9409a4d97d2563ef2674eb",
+        "android_client_info": {
+          "package_name": "com.example.mobile_project"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDzNXwxeDcUwYM1UhrF86RaAirVCNgOBc8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
