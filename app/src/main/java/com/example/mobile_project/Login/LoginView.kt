@@ -48,7 +48,7 @@ fun LoginView(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "Login",
+                text = "SKILL ISSUE",
                 style = MaterialTheme.typography.headlineMedium,
                 color = MaterialTheme.colorScheme.primary
             )

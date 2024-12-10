@@ -1,4 +1,4 @@
-package com.example.mobile_project.Login.RegisterView
+package com.example.mobile_project.Login
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -25,7 +25,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.mobile_project.Login.RegisterViewModel
 import com.example.mobile_project.ui.theme.Mobile_ProjectTheme
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class)
@@ -37,7 +36,6 @@ fun RegisterView(
 ) {
     val viewModel: RegisterViewModel = viewModel()
     val state = viewModel.state.value
-
     Box(
         modifier = modifier
             .fillMaxSize()
