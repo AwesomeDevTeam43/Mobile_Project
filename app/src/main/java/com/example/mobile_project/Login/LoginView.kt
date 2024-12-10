@@ -1,4 +1,4 @@
-package com.example.mobile_project
+package com.example.mobile_project.Login
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,15 +20,15 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.mobile_project.Screen
 import com.example.mobile_project.ui.theme.Mobile_ProjectTheme
 
 @Composable
-fun RegisterView(modifier: Modifier = Modifier,
-                 onRegisterSuccess : ()->Unit = {},
-                 navController: NavController = rememberNavController()
-) {
+fun LoginView(modifier: Modifier = Modifier,
+              onLoginSuccess : ()->Unit = {},
+              navController: NavController = rememberNavController()) {
 
-    val viewModel : RegisterViewModel = viewModel()
+    val viewModel : LoginViewModel = viewModel()
     val state = viewModel.state.value
 
     Box(modifier = modifier.fillMaxSize(),
@@ -59,15 +59,23 @@ fun RegisterView(modifier: Modifier = Modifier,
             Spacer(modifier = Modifier.height(16.dp))
             Button(
                 onClick = {
-                    viewModel.onRegisterClick {
-                        onRegisterSuccess()
+                    viewModel.onLoginClick {
+                        onLoginSuccess()
                     }
 
                 },
                 content = {
-                    Text("Register")
+                    Text("Login")
                 }
             )
+            Spacer(modifier = Modifier.height(16.dp))
+            Button(
+                onClick = {
+                    navController.navigate(Screen.Register.route)
+                }) {
+                Text("Register")
+            }
+
             Spacer(modifier = Modifier.height(16.dp))
             if (state.error != null)
                 Text(state.error?:"")
@@ -81,8 +89,8 @@ fun RegisterView(modifier: Modifier = Modifier,
 
 @Preview(showBackground = true)
 @Composable
-fun RegisterViewPreview() {
+fun LoginViewPreview() {
     Mobile_ProjectTheme() {
-        RegisterView()
+        LoginView()
     }
 }
