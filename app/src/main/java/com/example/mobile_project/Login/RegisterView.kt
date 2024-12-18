@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.mobile_project.Screen
 import com.example.mobile_project.ui.theme.Mobile_ProjectTheme
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class)
@@ -78,6 +79,13 @@ fun RegisterView(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text("Register")
+            }
+            Spacer(modifier = Modifier.height(16.dp))
+            Button(
+                onClick = { navController.navigate(Screen.Login.route) },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("Back to Login")
             }
             Spacer(modifier = Modifier.height(16.dp))
             if (state.error != null) {
