@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.mobile_project.Home.HomeView
 import com.example.mobile_project.Login.LoginView
 import com.example.mobile_project.Login.RegisterView
 import com.example.mobile_project.ui.theme.Mobile_ProjectTheme
@@ -26,7 +27,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             Mobile_ProjectTheme {
-                var navController = rememberNavController()
+                val navController = rememberNavController()
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     NavHost(
                         modifier = Modifier.padding(innerPadding),
@@ -43,18 +44,24 @@ class MainActivity : ComponentActivity() {
                             )
                         }
 
-                        composable (Screen.Register.route){
-                            RegisterView(onRegisterSuccess = {
-                                navController.navigate(Screen.Login.route)}
-                                ,navController = navController)
+                        composable(Screen.Register.route) {
+                            RegisterView(
+                                onRegisterSuccess = {
+                                    navController.navigate(Screen.Login.route)
+                                },
+                                navController = navController
+                            )
+                        }
 
+                        composable(Screen.Home.route) {
+                            HomeView(navController = navController)
                         }
                     }
                 }
                 LaunchedEffect(Unit) {
                     val auth = Firebase.auth
                     val currentUser = auth.currentUser
-                    if (currentUser != null){
+                    if (currentUser != null) {
                         navController.navigate(Screen.Home.route)
                     }
                 }
