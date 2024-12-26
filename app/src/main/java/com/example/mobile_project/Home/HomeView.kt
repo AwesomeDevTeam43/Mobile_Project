@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -13,18 +14,18 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.mobile_project.Products.RowProduct
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.ui.graphics.BlendMode.Companion.Screen
-import androidx.compose.ui.unit.dp
 import com.example.mobile_project.Products.Product
+import com.example.mobile_project.Products.RowProduct
+import com.example.mobile_project.Screen
 import com.example.mobile_project.ui.theme.Mobile_ProjectTheme
 
 @Composable
@@ -44,37 +45,39 @@ fun HomeView(
 }
 
 @Composable
-fun ProductListScreen(products: List<Product>, isLoading: Boolean, error: String?) {
-    if (isLoading) {
-        CircularProgressIndicator(modifier = Modifier.fillMaxSize())
-    } else if (error != null) {
-        Text(
-            text = "Error: $error",
-            style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.error,
-            modifier = Modifier.padding(16.dp)
-        )
-    } else {
-        LazyColumn {
-            items(products) { product ->
-                RowProduct(product = product, modifier = Modifier.padding(8.dp))
+fun HomeViewContent(modifier: Modifier = Modifier,
+                    navController: NavController = rememberNavController(),
+                    uiState: ProductsState
+) {
+    Box(modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center){
+        if (uiState.isLoading) {
+            Text("Loading products...")
+        }
+        else if (uiState.error != null) {
+            Text("Error: ${uiState.error}")
+        }
+        else if (uiState.products.isEmpty()) {
+            Text("No products found!")
+        }else{
+            LazyColumn(modifier = modifier
+                .fillMaxSize()) {
+                itemsIndexed(
+                    items = uiState.products,
+                ){ index, product ->
+                    RowProduct(
+                        modifier = Modifier
+                            .clickable {
+                                Log.d("mobile_Project",product.url ?:"none")
+                                navController.navigate(
+                                    Screen.ProductDetail.route
+                                        .replace("{product}", product.url?.encodeURL()?:"")
+                                )
+                            },
+                        product = product)
+                }
             }
         }
-    }
-}
-
-@Composable
-fun HomeViewContent(
-    modifier: Modifier = Modifier,
-    navController: NavController = rememberNavController(),
-    uiState: ProductsState
-) {
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        ProductListScreen(
-            products = uiState.products,
-            isLoading = uiState.isLoading,
-            error = uiState.error
-        )
     }
 }
 

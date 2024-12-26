@@ -1,5 +1,6 @@
 package com.example.mobile_project.Home
 
+import java.net.URLEncoder
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -9,6 +10,11 @@ fun String.parseDate() : Date? {
     return SimpleDateFormat(pattern, Locale.getDefault())
         .parse(this)
 }
+
+fun String.encodeURL() : String {
+    return URLEncoder.encode(this, "UTF-8")
+}
+
 fun Date.toYYYYMMDD() : String {
     val pattern = "yyyy-MM-dd"
     return SimpleDateFormat(pattern, Locale.getDefault())

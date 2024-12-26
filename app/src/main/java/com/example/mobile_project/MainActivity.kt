@@ -56,7 +56,7 @@ class MainActivity : ComponentActivity() {
                             HomeView(navController = navController)
                         }
                         composable(Screen.ProductDetail.route){
-                            val url = it.arguments?.getString("articleUrl")
+                            val url = it.arguments?.getString("productUrl")
                             ProductDetail(
                                 modifier = Modifier.padding(innerPadding),
                                 url = url ?: ""
