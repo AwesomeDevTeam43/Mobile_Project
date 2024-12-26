@@ -23,7 +23,6 @@ import com.example.mobile_project.R
 import com.example.mobile_project.ui.theme.Mobile_ProjectTheme
 import java.util.Date
 import coil.compose.AsyncImage
-import com.example.mobile_project.Home.toYYYYMMDD
 
 
 @Composable
@@ -62,7 +61,7 @@ fun RowProduct(modifier: Modifier = Modifier, product: Product, errorMessage: St
             }
             Column(modifier = Modifier.fillMaxWidth()) {
                 Text(
-                    text = product.name ?: "",
+                    text = product.title ?: "",
                     style = MaterialTheme.typography.titleLarge,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
@@ -81,16 +80,6 @@ fun RowProduct(modifier: Modifier = Modifier, product: Product, errorMessage: St
                     text = "Category: ${product.category ?: "N/A"}",
                     style = MaterialTheme.typography.bodyMedium
                 )
-                Text(
-                    text = "Rating: ${product.rating} / 5",
-                    style = MaterialTheme.typography.bodyMedium
-                )
-                Text(
-                    text = "Stock: ${product.stock} units",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = if (product.stock ?: 0 > 0) MaterialTheme.colorScheme.secondary
-                    else MaterialTheme.colorScheme.error
-                )
             }
         }
     }
@@ -107,10 +96,7 @@ fun RowArticlePreview() {
                 "https://media.istockphoto",
                 "Description",
                 "Category",
-                0.0,
-                0,
-                0.0,
-                Date()
+                0.0
             )
         )
     }

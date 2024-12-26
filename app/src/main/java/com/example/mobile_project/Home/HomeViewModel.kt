@@ -35,7 +35,7 @@ class HomeViewModel : ViewModel() {
         val client = OkHttpClient()
 
         val request = Request.Builder()
-            .url("https://fakestoreapi.com/products")
+            .url("https://api.escuelajs.co/api/v1/products")
             .build()
 
         client.newCall(request).enqueue(object : Callback {

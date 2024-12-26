@@ -33,11 +33,12 @@ fun HomeView(
     modifier: Modifier = Modifier,
     navController: NavController = rememberNavController()
 ) {
-    val viewModel = HomeViewModel()
+    val viewModel: HomeViewModel = viewModel()
     val uiState by viewModel.uiState.collectAsState()
     HomeViewContent(
         modifier = modifier,
-        uiState = uiState
+        uiState = uiState,
+        navController = navController
     )
     LaunchedEffect(Unit) {
         viewModel.fetchProducts()
