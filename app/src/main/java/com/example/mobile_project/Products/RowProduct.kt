@@ -3,6 +3,7 @@ package com.example.mobile_project.Products
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -22,7 +23,7 @@ import com.example.mobile_project.R
 import com.example.mobile_project.ui.theme.Mobile_ProjectTheme
 import java.util.Date
 import coil.compose.AsyncImage
-import com.example.mobile_project.Home.NormalDate
+import com.example.mobile_project.Home.toYYYYMMDD
 
 
 @Composable
@@ -39,7 +40,7 @@ fun RowProduct(modifier: Modifier = Modifier, product: Product, errorMessage: St
             product.urlImage?.let {
                 AsyncImage(
                     model = it,
-                    contentDescription = "image article",
+                    contentDescription = "Product Image",
                     modifier = Modifier
                         .height(120.dp)
                         .width(120.dp)
@@ -55,7 +56,7 @@ fun RowProduct(modifier: Modifier = Modifier, product: Product, errorMessage: St
                         .clip(RoundedCornerShape(8.dp))
                         .padding(6.dp),
                     painter = painterResource(id = R.drawable.no_img),
-                    contentDescription = "product image",
+                    contentDescription = "Product Image",
                     contentScale = ContentScale.Crop,
                 )
             }
@@ -71,7 +72,25 @@ fun RowProduct(modifier: Modifier = Modifier, product: Product, errorMessage: St
                     maxLines = 4,
                     overflow = TextOverflow.Ellipsis,
                 )
-                Text(text = product.publishedAt?.NormalDate() ?: "")
+                Text(
+                    text = "Price: \$${product.price}",
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.primary
+                )
+                Text(
+                    text = "Category: ${product.category ?: "N/A"}",
+                    style = MaterialTheme.typography.bodyMedium
+                )
+                Text(
+                    text = "Rating: ${product.rating} / 5",
+                    style = MaterialTheme.typography.bodyMedium
+                )
+                Text(
+                    text = "Stock: ${product.stock} units",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = if (product.stock ?: 0 > 0) MaterialTheme.colorScheme.secondary
+                    else MaterialTheme.colorScheme.error
+                )
             }
         }
     }
@@ -82,15 +101,17 @@ fun RowProduct(modifier: Modifier = Modifier, product: Product, errorMessage: St
 @Composable
 fun RowArticlePreview() {
     Mobile_ProjectTheme() {
-        RowProduct(product = Product(
-            name = "Capacete de Moto",
-            price = 100.0,
-            urlImage = "https://s1.medias-norauto.pt/images_produits/3501369716290_1/900x900/capacete-de-moto-wayscral-integral-road-vision-preto-xl--2631932.jpg",
-            description = "Protetor de cabeça para motociclistas",  
-            category = "Motociclistas",
-            stock = 10,
-            rating = 4.5,
-            publishedAt = Date(2023, 1, 1)
-        ))
+        RowProduct(
+            product = Product(
+                "Name",
+                "https://media.istockphoto",
+                "Description",
+                "Category",
+                0.0,
+                0,
+                0.0,
+                Date()
+            )
+        )
     }
 }

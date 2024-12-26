@@ -26,7 +26,7 @@ class HomeViewModel : ViewModel() {
     private val _uiState = MutableStateFlow(ProductsState())
     val uiState: StateFlow<ProductsState> = _uiState.asStateFlow()
 
-    fun fetchArticles() {
+    fun fetchProducts() {
         _uiState.value = ProductsState(
             isLoading = true,
             error = null
@@ -35,7 +35,7 @@ class HomeViewModel : ViewModel() {
         val client = OkHttpClient()
 
         val request = Request.Builder()
-            .url("https://api.escuelajs.co/api/v1/products")
+            .url("https://fakestoreapi.com/products")
             .build()
 
         client.newCall(request).enqueue(object : Callback {

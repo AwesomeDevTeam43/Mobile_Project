@@ -15,6 +15,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.mobile_project.Home.HomeView
 import com.example.mobile_project.Login.LoginView
 import com.example.mobile_project.Login.RegisterView
+import com.example.mobile_project.Products.ProductDetail
 import com.example.mobile_project.ui.theme.Mobile_ProjectTheme
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
@@ -43,7 +44,6 @@ class MainActivity : ComponentActivity() {
                                 }
                             )
                         }
-
                         composable(Screen.Register.route) {
                             RegisterView(
                                 onRegisterSuccess = {
@@ -52,9 +52,15 @@ class MainActivity : ComponentActivity() {
                                 navController = navController
                             )
                         }
-
                         composable(Screen.Home.route) {
                             HomeView(navController = navController)
+                        }
+                        composable(Screen.ProductDetail.route){
+                            val url = it.arguments?.getString("articleUrl")
+                            ProductDetail(
+                                modifier = Modifier.padding(innerPadding),
+                                url = url ?: ""
+                            )
                         }
                     }
                 }
@@ -74,4 +80,5 @@ sealed class Screen (val route:String){
     object Login : Screen("login")
     object Home : Screen("home")
     object Register : Screen("register")
+    object ProductDetail : Screen("productDetail/{productUrl}")
 }
