@@ -60,6 +60,7 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    implementation ("io.coil-kt:coil-compose:2.1.0")
 
     //firebase
     implementation(platform("com.google.firebase:firebase-bom:33.6.0"))
@@ -68,4 +69,10 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore")
 
     implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.7")
+
+    //net
+    implementation(platform("com.squareup.okhttp3:okhttp-bom:4.12.0"))
+    implementation("com.squareup.okhttp3:okhttp")
+    implementation("com.squareup.okhttp3:logging-interceptor")
+
 }
