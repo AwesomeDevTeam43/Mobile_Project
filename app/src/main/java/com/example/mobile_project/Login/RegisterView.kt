@@ -20,7 +20,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.mobile_project.Login.RegisterViewModel
+import com.example.mobile_project.ui.theme.Blue01
 import com.example.mobile_project.ui.theme.Mobile_ProjectTheme
+import com.example.mobile_project.ui.theme.Orange01
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -35,7 +37,7 @@ fun RegisterView(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(Color(0xFFFF7B1A)), // Orange background
+            .background(Color(Orange01.value)), // Orange background
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(modifier = Modifier.height(80.dp))
@@ -94,7 +96,7 @@ fun RegisterView(
                         .height(48.dp),
                     shape = RoundedCornerShape(12.dp),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = Color(0xFFFF7B1A),
+                        containerColor = Color(Orange01.value),
                         contentColor = Color.White
                     )
                 ) {
@@ -110,7 +112,7 @@ fun RegisterView(
                     Text(
                         "Back to Login",
                         fontSize = 14.sp,
-                        color = Color(0xFF0096FF),
+                        color = Color(Blue01.value),
                         textDecoration = TextDecoration.Underline
                     )
                 }

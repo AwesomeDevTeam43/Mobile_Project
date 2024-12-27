@@ -1,9 +1,12 @@
 package com.example.mobile_project.Products
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -12,6 +15,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
@@ -35,7 +39,7 @@ fun RowProduct(modifier: Modifier = Modifier, product: Product, errorMessage: St
             modifier = Modifier.padding(16.dp)
         )
     } else {
-        Row(modifier = modifier) {
+        Row(modifier = modifier, verticalAlignment = Alignment.CenterVertically) {
             product.urlImage?.let {
                 AsyncImage(
                     model = it,
@@ -59,33 +63,38 @@ fun RowProduct(modifier: Modifier = Modifier, product: Product, errorMessage: St
                     contentScale = ContentScale.Crop,
                 )
             }
-            Column(modifier = Modifier.fillMaxWidth()) {
-                Text(
-                    text = product.title ?: "",
-                    style = MaterialTheme.typography.titleLarge,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis,
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalArrangement = Arrangement.Center
                 )
-                Text(
-                    text = product.description ?: "",
-                    maxLines = 4,
-                    overflow = TextOverflow.Ellipsis,
-                    style = MaterialTheme.typography.bodyMedium
-                )
-                Text(
-                    text = "Category: ${product.category?.name ?: "N/A"}",
-                    style = MaterialTheme.typography.bodyMedium
-                )
-                Text(
-                    text = "Price: ${product.price}€",
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.primary
-                )
+                {
+                    Text(
+                        text = product.title ?: "",
+                        style = MaterialTheme.typography.titleLarge,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis,
+                    )
+//                Text(
+//                    text = product.description ?: "",
+//                    maxLines = 4,
+//                    overflow = TextOverflow.Ellipsis,
+//                    style = MaterialTheme.typography.bodyMedium
+//                )
+                    Text(
+                        text = "Category: ${product.category?.name ?: "N/A"}",
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                    Text(
+                        text = "Price: ${product.price}€",
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                }
             }
+            Spacer(modifier = Modifier.height(10.dp))
         }
-        Spacer(modifier = Modifier.height(10.dp))
     }
-}
+
 
 
 @Preview(showBackground = true)
@@ -94,7 +103,7 @@ fun RowArticlePreview() {
     Mobile_ProjectTheme() {
         RowProduct(
             product = Product(
-                "Name",
+                "Product Name",
                 "https://media.istockphoto",
                 "Description",
                 //"Category",

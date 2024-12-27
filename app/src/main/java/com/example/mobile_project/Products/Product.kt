@@ -1,8 +1,6 @@
 package com.example.mobile_project.Products
 
-import com.example.mobile_project.Home.parseDate
 import org.json.JSONObject
-import java.util.Date
 
 data class Product(
     var title: String? = null,

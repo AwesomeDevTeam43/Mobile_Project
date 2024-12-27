@@ -15,7 +15,6 @@ import androidx.navigation.compose.rememberNavController
 import com.example.mobile_project.Home.HomeView
 import com.example.mobile_project.Login.LoginView
 import com.example.mobile_project.Register.RegisterView
-import com.example.mobile_project.Products.ProductDetail
 import com.example.mobile_project.ui.theme.Mobile_ProjectTheme
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
@@ -55,12 +54,8 @@ class MainActivity : ComponentActivity() {
                         composable(Screen.Home.route) {
                             HomeView(navController = navController)
                         }
-                        composable(Screen.ProductDetail.route){
-                            val url = it.arguments?.getString("productUrl")
-                            ProductDetail(
-                                modifier = Modifier.padding(innerPadding),
-                                url = url ?: ""
-                            )
+                        composable(Screen.Product.route) {
+                            HomeView(navController = navController)
                         }
                     }
                 }
@@ -80,5 +75,6 @@ sealed class Screen (val route:String){
     object Login : Screen("login")
     object Home : Screen("home")
     object Register : Screen("register")
-    object ProductDetail : Screen("productDetail/{productUrl}")
+    object Product : Screen("product")
+
 }

@@ -17,7 +17,7 @@ data class LoginState(
 
 class LoginViewModel : ViewModel() {
     init {
-        signOutUser()
+        //signOutUser()
     }
     private fun signOutUser() {
         val auth: FirebaseAuth = Firebase.auth
