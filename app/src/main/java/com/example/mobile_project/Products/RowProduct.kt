@@ -70,18 +70,20 @@ fun RowProduct(modifier: Modifier = Modifier, product: Product, errorMessage: St
                     text = product.description ?: "",
                     maxLines = 4,
                     overflow = TextOverflow.Ellipsis,
-                )
-                Text(
-                    text = "Price: \$${product.price}",
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.primary
+                    style = MaterialTheme.typography.bodyMedium
                 )
                 Text(
                     text = "Category: ${product.category?.name ?: "N/A"}",
                     style = MaterialTheme.typography.bodyMedium
                 )
+                Text(
+                    text = "Price: ${product.price}€",
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.primary
+                )
             }
         }
+        Spacer(modifier = Modifier.height(10.dp))
     }
 }
 
