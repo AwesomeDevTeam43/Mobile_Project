@@ -46,36 +46,40 @@ fun HomeView(
 }
 
 @Composable
-fun HomeViewContent(modifier: Modifier = Modifier,
-                    navController: NavController = rememberNavController(),
-                    uiState: ProductsState
+fun HomeViewContent(
+    modifier: Modifier = Modifier,
+    navController: NavController = rememberNavController(),
+    uiState: ProductsState
 ) {
-    Box(modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center){
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
         if (uiState.isLoading) {
             Text("Loading products...")
-        }
-        else if (uiState.error != null) {
+        } else if (uiState.error != null) {
             Text("Error: ${uiState.error}")
-        }
-        else if (uiState.products.isEmpty()) {
+        } else if (uiState.products.isEmpty()) {
             Text("No products found!")
-        }else{
-            LazyColumn(modifier = modifier
-                .fillMaxSize()) {
+        } else {
+            LazyColumn(
+                modifier = modifier
+                    .fillMaxSize()
+            ) {
                 itemsIndexed(
                     items = uiState.products,
-                ){ index, product ->
+                ) { index, product ->
                     RowProduct(
                         modifier = Modifier
                             .clickable {
-                                Log.d("mobile_Project",product.url ?:"none")
-                                navController.navigate(
-                                    Screen.ProductDetail.route
-                                        .replace("{product}", product.url?.encodeURL()?:"")
-                                )
+                                Log.d("mobile_Project", product.url ?: "none")
+//                                navController.navigate(
+//                                    Screen.ProductDetail.route
+//                                        .replace("{product}", product.url?.encodeURL()?:"")
+//                                )
                             },
-                        product = product)
+                        product = product
+                    )
                 }
             }
         }
@@ -85,15 +89,31 @@ fun HomeViewContent(modifier: Modifier = Modifier,
 @Preview(showBackground = true)
 @Composable
 fun HomeViewPreview() {
-    /*
-        val articles = arrayListOf(
-            Article("Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin lobortis augue in erat scelerisque, vitae fringilla nisi tempus. Sed finibus tellus porttitor dignissim eleifend. Etiam sed neque libero. Integer auctor turpis est. Nunc ac auctor velit. Nunc et mi sollicitudin, iaculis nunc et, congue neque. Suspendisse potenti. Vestibulum finibus justo sed eleifend commodo. Phasellus vestibulum ligula nisi, convallis rhoncus quam placerat id. Donec eu lobortis lacus, quis porta tortor. Suspendisse quis dolor sapien. Maecenas finibus purus at orci aliquam eleifend. Nam venenatis sapien ac enim efficitur pretium. Praesent sagittis risus vitae feugiat blandit. Etiam non neque arcu. Cras a mauris eu erat sodales iaculis non a lorem.",
-                urlToImage = "https://media.istockphoto.com/id/1166633394/pt/foto/victorian-british-army-gymnastic-team-aldershot-19th-century.jpg?s=1024x1024&w=is&k=20&c=fIfqysdzOinu8hNJG6ZXOhl8ghQHA7ySl8BZZYWrxyQ="),
-            Article("Lorem Ipsum is simply dummy text of the printing", "description"))
-    */
-    val products = arrayListOf<Product>()
+    val products = arrayListOf(
+        Product(
+            "Name 1",
+            "https://media.istockphoto",
+            "Description",
+            //"Category",
+            price = 0.0
+        ),
+
+    Product(
+        "Name 2",
+        "https://media.istockphoto",
+        "Description",
+        //"Category",
+        price = 0.0
+    )
+    )
+
     Mobile_ProjectTheme {
-        HomeViewContent(uiState = ProductsState(products = products, isLoading = false, error = null))
+        HomeViewContent(
+            uiState = ProductsState(
+                products = products,
+                isLoading = false,
+                error = null
+            )
+        )
     }
 }

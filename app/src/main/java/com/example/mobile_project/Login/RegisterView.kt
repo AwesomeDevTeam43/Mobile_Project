@@ -56,7 +56,6 @@ fun RegisterView(
                 .padding(16.dp)
         ) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                // Text Fields
                 TextField(
                     value = state.email,
                     onValueChange = { viewModel.onEmailChange(it) },

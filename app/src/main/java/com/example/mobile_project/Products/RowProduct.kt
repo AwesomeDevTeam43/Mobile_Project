@@ -77,7 +77,7 @@ fun RowProduct(modifier: Modifier = Modifier, product: Product, errorMessage: St
                     color = MaterialTheme.colorScheme.primary
                 )
                 Text(
-                    text = "Category: ${product.category ?: "N/A"}",
+                    text = "Category: ${product.category?.name ?: "N/A"}",
                     style = MaterialTheme.typography.bodyMedium
                 )
             }
@@ -95,8 +95,8 @@ fun RowArticlePreview() {
                 "Name",
                 "https://media.istockphoto",
                 "Description",
-                "Category",
-                0.0
+                //"Category",
+                price = 0.0
             )
         )
     }
