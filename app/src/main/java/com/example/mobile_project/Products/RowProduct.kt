@@ -18,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -27,6 +28,7 @@ import com.example.mobile_project.R
 import com.example.mobile_project.ui.theme.Mobile_ProjectTheme
 import java.util.Date
 import coil.compose.AsyncImage
+import com.example.mobile_project.ui.theme.Blue02
 
 
 @Composable
@@ -59,7 +61,8 @@ fun RowProduct(
             text = product.title ?: "No Title",
             style = MaterialTheme.typography.titleLarge,
             maxLines = 1,
-            overflow = TextOverflow.Ellipsis
+            overflow = TextOverflow.Ellipsis,
+            color = Color.Black
         )
 
         Spacer(modifier = Modifier.height(4.dp))
@@ -68,7 +71,8 @@ fun RowProduct(
             text = product.description ?: "No Description",
             style = MaterialTheme.typography.bodyMedium,
             maxLines = 2,
-            overflow = TextOverflow.Ellipsis
+            overflow = TextOverflow.Ellipsis,
+            color = Color.Black
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -76,7 +80,7 @@ fun RowProduct(
         Text(
             text = "Price: ${product.price}€",
             style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.primary
+            color = Blue02
         )
     }
 }

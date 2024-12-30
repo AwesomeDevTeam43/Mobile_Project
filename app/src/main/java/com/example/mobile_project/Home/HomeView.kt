@@ -1,6 +1,7 @@
 package com.example.mobile_project.Home
 
 import android.util.Log
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -20,6 +21,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -34,7 +36,9 @@ import com.example.mobile_project.ui.theme.Mobile_ProjectTheme
 
 @Composable
 fun HomeView(
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier
+        .fillMaxSize()
+        .background(color= Color.White),
     navController: NavController = rememberNavController()
 ) {
     val viewModel: HomeViewModel = viewModel()
@@ -56,13 +60,16 @@ fun HomeView(
 
 @Composable
 fun HomeViewContent(
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier
+        .fillMaxSize()
+        .background(color= Color.White),
     navController: NavController = rememberNavController(),
     uiState: ProductsState
 ) {
     Box(
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier,
         contentAlignment = Alignment.Center
+
     ) {
         if (uiState.isLoading) {
             Text("Loading products...")
