@@ -1,5 +1,7 @@
 package com.example.mobile_project.Components
 
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Search
@@ -14,7 +16,8 @@ import com.example.mobile_project.ui.theme.Orange01
 @Composable
 fun TopBar(title: String) {
     TopAppBar(
-        title = { Text(text = title,color = Color.White) },
+        modifier = Modifier.fillMaxWidth(),
+        title = { Text(text = title, color = Color.White) },
         actions = {
             IconButton(onClick = { /* Ação para pesquisar */ }) {
                 Icon(
@@ -33,9 +36,11 @@ fun TopBar(title: String) {
         },
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = Orange01
-        )
+        ),
+        windowInsets = WindowInsets(0, 0, 0, 0) // Remove qualquer margem do sistema
     )
 }
+
 
 
 @Preview(showBackground = true)

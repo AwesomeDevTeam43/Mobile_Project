@@ -1,7 +1,15 @@
 package com.example.mobile_project.Components
 
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.windowInsetsBottomHeight
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
@@ -19,6 +27,9 @@ import com.example.mobile_project.ui.theme.Orange01
 @Composable
 fun BottomBar(navController: NavController) {
     BottomAppBar(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(0.dp), // Remove qualquer padding
         containerColor = Orange01
     ) {
         IconButton(onClick = { navController.navigate("home") }) {
@@ -28,7 +39,7 @@ fun BottomBar(navController: NavController) {
                 tint = Color.White
             )
         }
-        Spacer(modifier = Modifier.weight(1f)) // Espaçamento flexível para centralizar os ícones
+        Spacer(modifier = Modifier.weight(1f))
         IconButton(onClick = { navController.navigate("favorites") }) {
             Icon(
                 imageVector = Icons.Default.Favorite,
@@ -47,9 +58,13 @@ fun BottomBar(navController: NavController) {
 }
 
 
+
+
+
+
 @Preview(showBackground = true)
 @Composable
 fun BottomBarPreview() {
-    val navController = rememberNavController() // Criação de um NavController fictício
+    val navController = rememberNavController()
     BottomBar(navController = navController)
 }

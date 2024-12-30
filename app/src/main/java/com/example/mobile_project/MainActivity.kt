@@ -36,7 +36,7 @@ class MainActivity : ComponentActivity() {
                     ) {
                         composable(Screen.Login.route) {
                             LoginView(
-                                modifier = Modifier.padding(innerPadding),
+                                modifier = Modifier,
                                 navController = navController,
                                 onLoginSuccess = {
                                     navController.navigate(Screen.Home.route)
