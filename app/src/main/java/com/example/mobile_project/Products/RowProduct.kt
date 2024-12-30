@@ -30,70 +30,57 @@ import coil.compose.AsyncImage
 
 
 @Composable
-fun RowProduct(modifier: Modifier = Modifier, product: Product, errorMessage: String? = null) {
-    if (errorMessage != null) {
-        Text(
-            text = "Error: $errorMessage",
-            style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.error,
-            modifier = Modifier.padding(16.dp)
-        )
-    } else {
-        Row(modifier = modifier, verticalAlignment = Alignment.CenterVertically) {
-            product.urlImage?.let {
-                AsyncImage(
-                    model = it,
-                    contentDescription = "Product Image",
-                    modifier = Modifier
-                        .height(120.dp)
-                        .width(120.dp)
-                        .clip(RoundedCornerShape(8.dp))
-                        .padding(6.dp),
-                    contentScale = ContentScale.Crop
-                )
-            } ?: run {
-                Image(
-                    modifier = Modifier
-                        .height(120.dp)
-                        .width(120.dp)
-                        .clip(RoundedCornerShape(8.dp))
-                        .padding(6.dp),
-                    painter = painterResource(id = R.drawable.no_img),
-                    contentDescription = "Product Image",
-                    contentScale = ContentScale.Crop,
-                )
-            }
-                Column(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalArrangement = Arrangement.Center
-                )
-                {
-                    Text(
-                        text = product.title ?: "",
-                        style = MaterialTheme.typography.titleLarge,
-                        maxLines = 2,
-                        overflow = TextOverflow.Ellipsis,
-                    )
-//                Text(
-//                    text = product.description ?: "",
-//                    maxLines = 4,
-//                    overflow = TextOverflow.Ellipsis,
-//                    style = MaterialTheme.typography.bodyMedium
-//                )
-                    Text(
-                        text = "Category: ${product.category?.name ?: "N/A"}",
-                        style = MaterialTheme.typography.bodyMedium
-                    )
-                    Text(
-                        text = "Price: ${product.price}€",
-                        style = MaterialTheme.typography.bodyLarge,
-                        color = MaterialTheme.colorScheme.primary
-                    )
-                }
-            }
-            Spacer(modifier = Modifier.height(10.dp))
+fun RowProduct(
+    modifier: Modifier = Modifier,
+    product: Product
+) {
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(8.dp)
+    ) {
+        // Imagem em tela cheia horizontal
+        product.urlImage?.let {
+            AsyncImage(
+                model = it,
+                contentDescription = "Product Image",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(300.dp)
+                    .clip(RoundedCornerShape(8.dp)),
+                contentScale = ContentScale.Crop
+            )
         }
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        // Descrição
+        Text(
+            text = product.title ?: "No Title",
+            style = MaterialTheme.typography.titleLarge,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
+        )
+
+        Spacer(modifier = Modifier.height(4.dp))
+
+        Text(
+            text = product.description ?: "No Description",
+            style = MaterialTheme.typography.bodyMedium,
+            maxLines = 2,
+            overflow = TextOverflow.Ellipsis
+        )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        Text(
+            text = "Price: ${product.price}€",
+            style = MaterialTheme.typography.bodyLarge,
+            color = MaterialTheme.colorScheme.primary
+        )
     }
+}
+
 
 
 

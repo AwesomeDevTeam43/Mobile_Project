@@ -2,6 +2,7 @@ package com.example.mobile_project.Home
 
 import android.util.Log
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,6 +12,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -23,6 +25,8 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.mobile_project.Components.BottomBar
+import com.example.mobile_project.Components.TopBar
 import com.example.mobile_project.Products.Product
 import com.example.mobile_project.Products.RowProduct
 import com.example.mobile_project.Screen
@@ -35,11 +39,16 @@ fun HomeView(
 ) {
     val viewModel: HomeViewModel = viewModel()
     val uiState by viewModel.uiState.collectAsState()
-    HomeViewContent(
-        modifier = modifier,
-        uiState = uiState,
-        navController = navController
-    )
+    Scaffold(
+        topBar = { TopBar(title = "Home") },
+        bottomBar = { BottomBar(navController) }
+    ) { paddingValues ->
+        HomeViewContent(
+            modifier = modifier.padding(paddingValues),
+            uiState = uiState,
+            navController = navController
+        )
+    }
     LaunchedEffect(Unit) {
         viewModel.fetchProducts()
     }
@@ -63,20 +72,17 @@ fun HomeViewContent(
             Text("No products found!")
         } else {
             LazyColumn(
-                modifier = modifier
+                modifier = Modifier
                     .fillMaxSize()
+                    .padding(8.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                itemsIndexed(
-                    items = uiState.products,
-                ) { index, product ->
+                items(uiState.products) { product ->
                     RowProduct(
                         modifier = Modifier
+                            .padding(vertical = 8.dp)
                             .clickable {
-                                Log.d("mobile_Project", product.url ?: "none")
-//                                navController.navigate(
-//                                    Screen.ProductDetail.route
-//                                        .replace("{product}", product.url?.encodeURL()?:"")
-//                                )
+                                Log.d("Product Clicked", product.url ?: "none")
                             },
                         product = product
                     )
@@ -98,13 +104,13 @@ fun HomeViewPreview() {
             price = 0.0
         ),
 
-    Product(
-        "Name 2",
-        "https://media.istockphoto",
-        "Description",
-        //"Category",
-        price = 0.0
-    )
+        Product(
+            "Name 2",
+            "https://media.istockphoto",
+            "Description",
+            //"Category",
+            price = 0.0
+        )
     )
 
     Mobile_ProjectTheme {
