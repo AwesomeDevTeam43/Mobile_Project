@@ -16,7 +16,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.mobile_project.Home.HomeView
 import com.example.mobile_project.Login.LoginView
 import com.example.mobile_project.Profile.ProfileView
-import com.example.mobile_project.Register.RegisterView
+import com.example.mobile_project.Login.RegisterView
 import com.example.mobile_project.ui.theme.Mobile_ProjectTheme
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth

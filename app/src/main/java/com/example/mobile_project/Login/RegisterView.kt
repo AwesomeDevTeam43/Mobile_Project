@@ -1,4 +1,4 @@
-package com.example.mobile_project.Register
+package com.example.mobile_project.Login
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -28,7 +28,8 @@ import com.example.mobile_project.ui.theme.Orange01
 @Composable
 fun RegisterView(
     modifier: Modifier = Modifier,
-    onRegisterSuccess: () -> Unit = {}
+    onRegisterSuccess: () -> Unit = {},
+    navController: NavController = rememberNavController(),
 ) {
     val viewModel: RegisterViewModel = viewModel()
     val state = viewModel.state.value
@@ -57,20 +58,7 @@ fun RegisterView(
                 .padding(16.dp)
         ) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                TextField(
-                    value = state.email,
-                    onValueChange = { viewModel.onEmailChange(it) },
-                    placeholder = { Text("Email") },
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = TextFieldDefaults.textFieldColors(
-                        containerColor = Color.Transparent,
-                        focusedIndicatorColor = Color.Gray,
-                        unfocusedIndicatorColor = Color.Gray
-                    )
-                )
-
-                Spacer(modifier = Modifier.height(16.dp))
-
+                // Username TextField
                 TextField(
                     value = state.username,
                     onValueChange = { viewModel.onUsernameChange(it) },
@@ -86,11 +74,9 @@ fun RegisterView(
                 Spacer(modifier = Modifier.height(16.dp))
 
                 TextField(
-                    value = state.password,
-                    onValueChange = { viewModel.onPasswordChange(it) },
-                    placeholder = { Text("Password") },
-                    visualTransformation = PasswordVisualTransformation(),
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                    value = state.email,
+                    onValueChange = { viewModel.onEmailChange(it) },
+                    placeholder = { Text("Email") },
                     modifier = Modifier.fillMaxWidth(),
                     colors = TextFieldDefaults.textFieldColors(
                         containerColor = Color.Transparent,
@@ -102,9 +88,9 @@ fun RegisterView(
                 Spacer(modifier = Modifier.height(16.dp))
 
                 TextField(
-                    value = state.confirmPassword,
-                    onValueChange = { viewModel.onConfirmPasswordChange(it) },
-                    placeholder = { Text("Confirm Password") },
+                    value = state.password,
+                    onValueChange = { viewModel.onPasswordChange(it) },
+                    placeholder = { Text("Password") },
                     visualTransformation = PasswordVisualTransformation(),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                     modifier = Modifier.fillMaxWidth(),
@@ -135,7 +121,7 @@ fun RegisterView(
 
                 // Register Link
                 TextButton(
-                    onClick = { /* Navigate to login screen */ }
+                    onClick = { navController.navigate("Login") }
                 ) {
                     Text(
                         "Back to Login",
@@ -152,14 +138,6 @@ fun RegisterView(
                         color = MaterialTheme.colorScheme.error
                     )
                 }
-
-                if (state.successMessage != null) {
-                    Text(
-                        text = state.successMessage,
-                        color = Color.Green
-                    )
-                }
-
                 if (state.isLoading) {
                     CircularProgressIndicator()
                 }
@@ -167,7 +145,6 @@ fun RegisterView(
         }
     }
 }
-
 
 @Preview(showBackground = true)
 @Composable
