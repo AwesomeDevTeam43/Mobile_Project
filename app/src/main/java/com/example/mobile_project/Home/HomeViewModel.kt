@@ -38,6 +38,7 @@ class HomeViewModel : ViewModel() {
                         product.category = category?.name
                         productsResult.add(product)
                         if (productsResult.size == result.size()) {
+                            productsResult.sortBy { it.title }
                             _uiState.value = ProductsState(
                                 products = productsResult,
                                 isLoading = false,

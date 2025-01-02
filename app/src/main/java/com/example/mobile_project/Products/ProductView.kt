@@ -35,7 +35,6 @@ fun ProductView(
 ) {
     val categoryName = remember { mutableStateOf("N/A") }
 
-    // Fetch category name based on category ID
     LaunchedEffect(product.category) {
         product.category?.let { categoryId ->
             FirebaseFirestore.getInstance().collection("categories").document(categoryId)
