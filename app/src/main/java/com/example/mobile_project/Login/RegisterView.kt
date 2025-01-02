@@ -37,7 +37,7 @@ fun RegisterView(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(Color(Orange01.value)), // Orange background
+            .background(Color(Orange01.value)),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(modifier = Modifier.height(80.dp))
@@ -73,6 +73,20 @@ fun RegisterView(
                 Spacer(modifier = Modifier.height(16.dp))
 
                 TextField(
+                    value = state.username,
+                    onValueChange = { viewModel.onUsernameChange(it) },
+                    placeholder = { Text("Username") },
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = TextFieldDefaults.textFieldColors(
+                        containerColor = Color.Transparent,
+                        focusedIndicatorColor = Color.Gray,
+                        unfocusedIndicatorColor = Color.Gray
+                    )
+                )
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                TextField(
                     value = state.password,
                     onValueChange = { viewModel.onPasswordChange(it) },
                     placeholder = { Text("Password") },
@@ -86,8 +100,23 @@ fun RegisterView(
                     )
                 )
 
-                Spacer(modifier = Modifier.height(32.dp))
+                Spacer(modifier = Modifier.height(16.dp))
 
+                TextField(
+                    value = state.confirmPassword,
+                    onValueChange = { viewModel.onConfirmPasswordChange(it) },
+                    placeholder = { Text("Confirm Password") },
+                    visualTransformation = PasswordVisualTransformation(),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = TextFieldDefaults.textFieldColors(
+                        containerColor = Color.Transparent,
+                        focusedIndicatorColor = Color.Gray,
+                        unfocusedIndicatorColor = Color.Gray
+                    )
+                )
+
+                Spacer(modifier = Modifier.height(32.dp))
 
                 Button(
                     onClick = { viewModel.onRegisterClick { onRegisterSuccess() } },
@@ -105,7 +134,6 @@ fun RegisterView(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Register Link
                 TextButton(
                     onClick = { navController.navigate("Login") }
                 ) {
@@ -117,7 +145,6 @@ fun RegisterView(
                     )
                 }
 
-                // Loader and Errors
                 if (state.error != null) {
                     Text(
                         text = state.error ?: "",
@@ -131,6 +158,7 @@ fun RegisterView(
         }
     }
 }
+
 @Preview(showBackground = true)
 @Composable
 fun RegisterViewPreview() {
