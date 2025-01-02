@@ -8,15 +8,9 @@ data class Product(
     var title: String? = null,
     var price: Double? = 0.0,
     var description: String? = null,
-    var category: Category? = null,
+    var category: String? = null,
     var images: List<String>? = null,
     var url: String? = null,
 ) {
     constructor() : this(null, null, 0.0, null, null, null, null)
 }
-
-data class Category(
-    val id: Int = 0,
-    val name: String = "",
-    val image: String = ""
-)

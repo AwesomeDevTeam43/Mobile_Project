@@ -3,6 +3,7 @@ package com.example.mobile_project.Home
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.example.mobile_project.Products.Product
+import com.example.mobile_project.Products.Category
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -33,13 +34,18 @@ class HomeViewModel : ViewModel() {
                 val productsResult = arrayListOf<Product>()
                 for (document in result) {
                     val product = document.toObject(Product::class.java)
-                    productsResult.add(product)
+                    fetchCategoryForProduct(product) { category ->
+                        product.category = category?.name
+                        productsResult.add(product)
+                        if (productsResult.size == result.size()) {
+                            _uiState.value = ProductsState(
+                                products = productsResult,
+                                isLoading = false,
+                                error = null
+                            )
+                        }
+                    }
                 }
-                _uiState.value = ProductsState(
-                    products = productsResult,
-                    isLoading = false,
-                    error = null
-                )
             }
             .addOnFailureListener { exception ->
                 Log.e("HomeViewModel", "Error getting documents: ", exception)
@@ -48,5 +54,20 @@ class HomeViewModel : ViewModel() {
                     error = exception.message
                 )
             }
+    }
+
+    private fun fetchCategoryForProduct(product: Product, callback: (Category?) -> Unit) {
+        product.category?.let { categoryId ->
+            firestore.collection("categories").document(categoryId)
+                .get()
+                .addOnSuccessListener { document ->
+                    val category = document.toObject(Category::class.java)
+                    callback(category)
+                }
+                .addOnFailureListener { exception ->
+                    Log.e("HomeViewModel", "Error getting category: ", exception)
+                    callback(null)
+                }
+        } ?: callback(null)
     }
 }

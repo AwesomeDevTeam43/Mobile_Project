@@ -14,6 +14,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -24,18 +27,35 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.mobile_project.ui.theme.White01
+import com.google.firebase.firestore.FirebaseFirestore
 
 @Composable
 fun ProductView(
     modifier: Modifier = Modifier, product: Product
 ) {
+    val categoryName = remember { mutableStateOf("N/A") }
+
+    // Fetch category name based on category ID
+    LaunchedEffect(product.category) {
+        product.category?.let { categoryId ->
+            FirebaseFirestore.getInstance().collection("categories").document(categoryId)
+                .get()
+                .addOnSuccessListener { document ->
+                    val category = document.toObject(Category::class.java)
+                    categoryName.value = category?.name ?: "N/A"
+                }
+                .addOnFailureListener {
+                    categoryName.value = "N/A"
+                }
+        }
+    }
+
     Column(
         modifier = modifier
             .fillMaxSize()
             .background(Color(White01.value))
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
-
     ) {
         Row(modifier = Modifier) {
             product.images?.firstOrNull()?.let { imageUrl ->
@@ -56,10 +76,9 @@ fun ProductView(
         {
             Column(
                 modifier = Modifier
-                .fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally,)
-
-            {
+                    .fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
                 Text(
                     text = product.title ?: "",
                     style = MaterialTheme.typography.titleLarge,
@@ -74,7 +93,7 @@ fun ProductView(
                     style = MaterialTheme.typography.bodyMedium
                 )
                 Text(
-                    text = "Category: ${product.category?.name ?: "N/A"}",
+                    text = "Category: ${categoryName.value}",
                     style = MaterialTheme.typography.bodyMedium
                 )
                 Text(

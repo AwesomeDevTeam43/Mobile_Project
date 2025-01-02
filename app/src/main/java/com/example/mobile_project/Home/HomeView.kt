@@ -81,6 +81,7 @@ fun HomeView(
         viewModel.fetchProducts()
     }
 }
+
 @Composable
 fun LogoutConfirmationDialog(
     onConfirm: () -> Unit,
