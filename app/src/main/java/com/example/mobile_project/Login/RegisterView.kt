@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.mobile_project.Login.RegisterViewModel
 import com.example.mobile_project.ui.theme.Blue01
 import com.example.mobile_project.ui.theme.Mobile_ProjectTheme
 import com.example.mobile_project.ui.theme.Orange01
@@ -27,7 +28,8 @@ import com.example.mobile_project.ui.theme.Orange01
 @Composable
 fun RegisterView(
     modifier: Modifier = Modifier,
-    onRegisterSuccess: () -> Unit = {}
+    onRegisterSuccess: () -> Unit = {},
+    navController: NavController = rememberNavController(),
 ) {
     val viewModel: RegisterViewModel = viewModel()
     val state = viewModel.state.value
@@ -119,7 +121,7 @@ fun RegisterView(
 
                 // Register Link
                 TextButton(
-                    onClick = { /* Navigate to login screen */ }
+                    onClick = { navController.navigate("Login") }
                 ) {
                     Text(
                         "Back to Login",
@@ -136,14 +138,6 @@ fun RegisterView(
                         color = MaterialTheme.colorScheme.error
                     )
                 }
-
-                if (state.successMessage != null) {
-                    Text(
-                        text = state.successMessage,
-                        color = Color.Green
-                    )
-                }
-
                 if (state.isLoading) {
                     CircularProgressIndicator()
                 }
@@ -151,7 +145,6 @@ fun RegisterView(
         }
     }
 }
-
 
 @Preview(showBackground = true)
 @Composable
