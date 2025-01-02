@@ -10,47 +10,63 @@ import com.google.firebase.ktx.Firebase
 
 data class RegisterState(
     val email: String = "",
+    val username: String = "",
     val password: String = "",
+    val confirmPassword: String = "",
     val isLoading: Boolean = false,
     val error: String? = null
 )
 
+
 class RegisterViewModel : ViewModel() {
 
-    var state = mutableStateOf(LoginState())
+    var state = mutableStateOf(RegisterState())
         private set
 
     fun onEmailChange(email: String) {
         state.value = state.value.copy(email = email)
     }
 
+    fun onUsernameChange(username: String) {
+        state.value = state.value.copy(username = username)
+    }
+
     fun onPasswordChange(password: String) {
         state.value = state.value.copy(password = password)
     }
 
-    fun onRegisterClick( onRegisterSuccess: ()->Unit) {
-        state.value = state.value.copy(isLoading = true)
+    fun onConfirmPasswordChange(confirmPassword: String) {
+        state.value = state.value.copy(confirmPassword = confirmPassword)
+    }
+
+    fun onRegisterClick(onRegisterSuccess: () -> Unit) {
+        val currentState = state.value
+
+        // Validation checks
+        if (currentState.password != currentState.confirmPassword) {
+            state.value = currentState.copy(error = "Passwords do not match")
+            return
+        }
+
+        if (currentState.username.isBlank()) {
+            state.value = currentState.copy(error = "Username cannot be empty")
+            return
+        }
+
+        state.value = currentState.copy(isLoading = true)
 
         val auth: FirebaseAuth = Firebase.auth
 
-        auth.createUserWithEmailAndPassword(state.value.email, state.value.password)
+        auth.createUserWithEmailAndPassword(currentState.email, currentState.password)
             .addOnCompleteListener { task ->
                 state.value = state.value.copy(isLoading = false)
                 if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "createUserWithEmail:success")
-                    val user = auth.currentUser
                     onRegisterSuccess()
                 } else {
-                    // If sign in fails, display a message to the user.
                     Log.w(TAG, "createUserWithEmail:failure", task.exception)
-                    state.value = state.value.copy(error = task.exception?.message?: "Unknown error")
+                    state.value = state.value.copy(error = task.exception?.message ?: "Unknown error")
                 }
             }
-
-
-
-
     }
-
 }
