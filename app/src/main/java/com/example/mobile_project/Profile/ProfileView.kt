@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -33,7 +34,20 @@ fun ProfileView(
     val uiState by viewModel.uiState.collectAsState()
 
     Scaffold(
-        topBar = { TopBar(title = "Profile") },
+        topBar = {
+            TopBar(
+                title = "Profile",
+                actions = {
+                    IconButton(onClick = { /* Ação para notificações */ }) {
+                        Icon(
+                            imageVector = Icons.Default.Notifications,
+                            contentDescription = "Notifications",
+                            tint = Color.White
+                        )
+                    }
+                }
+            )
+        },
         bottomBar = { BottomBar(navController) }
     ) { paddingValues ->
         ProfileViewContent(
