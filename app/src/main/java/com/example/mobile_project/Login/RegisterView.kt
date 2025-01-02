@@ -28,8 +28,7 @@ import com.example.mobile_project.ui.theme.Orange01
 @Composable
 fun RegisterView(
     modifier: Modifier = Modifier,
-    onRegisterSuccess: () -> Unit = {},
-    navController: NavController = rememberNavController(),
+    onRegisterSuccess: () -> Unit = {}
 ) {
     val viewModel: RegisterViewModel = viewModel()
     val state = viewModel.state.value
@@ -37,7 +36,7 @@ fun RegisterView(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(Color(Orange01.value)),
+            .background(Color(Orange01.value)), // Orange background
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(modifier = Modifier.height(80.dp))
@@ -134,8 +133,9 @@ fun RegisterView(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
+                // Register Link
                 TextButton(
-                    onClick = { navController.navigate("Login") }
+                    onClick = { /* Navigate to login screen */ }
                 ) {
                     Text(
                         "Back to Login",
@@ -145,12 +145,21 @@ fun RegisterView(
                     )
                 }
 
+                // Loader and Errors
                 if (state.error != null) {
                     Text(
                         text = state.error ?: "",
                         color = MaterialTheme.colorScheme.error
                     )
                 }
+
+                if (state.successMessage != null) {
+                    Text(
+                        text = state.successMessage,
+                        color = Color.Green
+                    )
+                }
+
                 if (state.isLoading) {
                     CircularProgressIndicator()
                 }
@@ -158,6 +167,7 @@ fun RegisterView(
         }
     }
 }
+
 
 @Preview(showBackground = true)
 @Composable
