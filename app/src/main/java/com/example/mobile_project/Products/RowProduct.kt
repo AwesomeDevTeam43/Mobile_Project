@@ -42,9 +42,9 @@ fun RowProduct(
             .padding(8.dp)
     ) {
         // Imagem em tela cheia horizontal
-        product.urlImage?.let {
+        product.images?.firstOrNull()?.let { imageUrl ->
             AsyncImage(
-                model = it,
+                model = imageUrl,
                 contentDescription = "Product Image",
                 modifier = Modifier
                     .fillMaxWidth()
@@ -94,10 +94,9 @@ fun RowArticlePreview() {
     Mobile_ProjectTheme() {
         RowProduct(
             product = Product(
-                "Product Name",
-                "https://media.istockphoto",
-                "Description",
-                //"Category",
+                title = "Product Name",
+                images = listOf("https://media.istockphoto"),
+                description = "Description",
                 price = 0.0
             )
         )

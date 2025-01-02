@@ -38,9 +38,9 @@ fun ProductView(
 
     ) {
         Row(modifier = Modifier) {
-            product.urlImage?.let {
+            product.images?.firstOrNull()?.let { imageUrl ->
                 AsyncImage(
-                    model = it,
+                    model = imageUrl,
                     contentDescription = "Product Image",
                     modifier = Modifier
                         .height(240.dp)
@@ -92,10 +92,9 @@ fun ProductView(
 fun ProductViewPreview() {
     ProductView(
         product = Product(
-            "Name",
-            "https://media.istockphoto",
-            "Description",
-            //"Category",
+            title = "Name",
+            images = listOf("https://media.istockphoto"),
+            description = "Description",
             price = 0.0
         )
     )

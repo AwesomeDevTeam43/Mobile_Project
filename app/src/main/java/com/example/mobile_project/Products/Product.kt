@@ -3,11 +3,12 @@ package com.example.mobile_project.Products
 import org.json.JSONObject
 
 data class Product(
+    var id: Int? = null,
     var title: String? = null,
-    var urlImage: String? = null,
+    var price: Double? = 0.0,
     var description: String? = null,
     var category: Category? = null,
-    var price: Double? = 0.0,
+    var images: List<String>? = null,
     var url: String? = null,
 ) {
     companion object {
@@ -19,12 +20,19 @@ data class Product(
                 image = categoryJson.getString("image")
             )
 
+            val imagesJsonArray = json.getJSONArray("images")
+            val imagesList = mutableListOf<String>()
+            for (i in 0 until imagesJsonArray.length()) {
+                imagesList.add(imagesJsonArray.getString(i))
+            }
+
             return Product(
+                id = json.optInt("id"),
                 title = json.optString("title", null),
-                urlImage = json.optJSONArray("images")?.optString(0, null),
+                price = json.optDouble("price", 0.0),
                 description = json.optString("description", null),
                 category = category,
-                price = json.optDouble("price", 0.0),
+                images = imagesList,
                 url = json.optString("url", null),
             )
         }
