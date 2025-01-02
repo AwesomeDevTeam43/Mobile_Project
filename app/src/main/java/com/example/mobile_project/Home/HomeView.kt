@@ -33,7 +33,6 @@ import com.example.mobile_project.Components.BottomBar
 import com.example.mobile_project.Components.TopBar
 import com.example.mobile_project.Products.Product
 import com.example.mobile_project.Products.RowProduct
-import com.example.mobile_project.Screen
 import com.example.mobile_project.ui.theme.Mobile_ProjectTheme
 
 @Composable

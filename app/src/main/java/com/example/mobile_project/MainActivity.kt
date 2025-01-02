@@ -1,3 +1,4 @@
+// MainActivity.kt
 package com.example.mobile_project
 
 import android.os.Bundle
@@ -14,6 +15,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.mobile_project.Home.HomeView
 import com.example.mobile_project.Login.LoginView
+import com.example.mobile_project.Profile.ProfileView
 import com.example.mobile_project.Register.RegisterView
 import com.example.mobile_project.ui.theme.Mobile_ProjectTheme
 import com.google.firebase.Firebase
@@ -57,6 +59,12 @@ class MainActivity : ComponentActivity() {
                         composable(Screen.Product.route) {
                             HomeView(navController = navController)
                         }
+                        composable(Screen.Favorites.route) {
+                            HomeView(navController = navController)
+                        }
+                        composable(Screen.Profile.route) {
+                            ProfileView(navController = navController)
+                        }
                     }
                 }
                 LaunchedEffect(Unit) {
@@ -71,10 +79,11 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-sealed class Screen (val route:String){
+sealed class Screen(val route: String) {
     object Login : Screen("login")
     object Home : Screen("home")
     object Register : Screen("register")
     object Product : Screen("product")
-
+    object Favorites : Screen("favorites")
+    object Profile : Screen("profile")
 }
