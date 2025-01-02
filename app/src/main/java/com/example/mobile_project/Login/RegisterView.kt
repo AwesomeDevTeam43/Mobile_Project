@@ -1,4 +1,4 @@
-package com.example.mobile_project.Register
+package com.example.mobile_project.Login
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -19,7 +19,6 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.mobile_project.Login.RegisterViewModel
 import com.example.mobile_project.ui.theme.Blue01
 import com.example.mobile_project.ui.theme.Mobile_ProjectTheme
 import com.example.mobile_project.ui.theme.Orange01
