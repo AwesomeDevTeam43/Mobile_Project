@@ -6,6 +6,8 @@ import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import com.google.firebase.firestore.FirebaseFirestore
+
 
 data class ProfileState(
     val username: String = "",
@@ -18,6 +20,8 @@ class ProfileViewModel : ViewModel() {
     private val _uiState = MutableStateFlow(ProfileState())
     val uiState: StateFlow<ProfileState> = _uiState
 
+    private val firestore = FirebaseFirestore.getInstance()
+
     init {
         fetchProfile()
     }
@@ -28,11 +32,22 @@ class ProfileViewModel : ViewModel() {
             try {
                 val user = FirebaseAuth.getInstance().currentUser
                 if (user != null) {
-                    _uiState.value = ProfileState(
-                        username = user.displayName ?: "No Name",
-                        email = user.email ?: "No Email",
-                        isLoading = false
-                    )
+                    // Fetch username from Firestore
+                    firestore.collection("users").document(user.uid).get()
+                        .addOnSuccessListener { document ->
+                            val username = document.getString("username") ?: "No Name"
+                            _uiState.value = ProfileState(
+                                username = username,
+                                email = user.email ?: "No Email",
+                                isLoading = false
+                            )
+                        }
+                        .addOnFailureListener { exception ->
+                            _uiState.value = ProfileState(
+                                error = exception.message ?: "Failed to load profile",
+                                isLoading = false
+                            )
+                        }
                 } else {
                     _uiState.value = ProfileState(error = "User not logged in", isLoading = false)
                 }
