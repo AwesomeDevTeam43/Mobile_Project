@@ -37,7 +37,7 @@ fun RegisterView(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(Color(Orange01.value)), // Orange background
+            .background(Color(Orange01.value)),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(modifier = Modifier.height(80.dp))
