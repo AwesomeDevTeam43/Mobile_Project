@@ -16,17 +16,19 @@ import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -53,6 +55,7 @@ fun HomeView(
     val profileViewModel: ProfileViewModel = viewModel()
     val uiState by viewModel.uiState.collectAsState()
     val showLogoutDialog = remember { mutableStateOf(false) }
+    var expanded by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -66,11 +69,44 @@ fun HomeView(
                             tint = Color.White
                         )
                     }
-                    IconButton(onClick = { /* Ação para mais opções */ }) {
+                    IconButton(onClick = { expanded = true }) {
                         Icon(
                             imageVector = Icons.Default.MoreVert, // Ícone de 3 pontos
                             contentDescription = "More",
                             tint = Color.White
+                        )
+                    }
+                    DropdownMenu(
+                        expanded = expanded,
+                        onDismissRequest = { expanded = false }
+                    ) {
+                        DropdownMenuItem(
+                            text = { Text("Sort by Price: Low to High") },
+                            onClick = {
+                                viewModel.sortProductsByPriceAscending()
+                                expanded = false
+                            }
+                        )
+                        DropdownMenuItem(
+                            text = { Text("Sort by Price: High to Low") },
+                            onClick = {
+                                viewModel.sortProductsByPriceDescending()
+                                expanded = false
+                            }
+                        )
+                        DropdownMenuItem(
+                            text = { Text("Sort by Name: A-Z") },
+                            onClick = {
+                                viewModel.sortProductsByNameAscending()
+                                expanded = false
+                            }
+                        )
+                        DropdownMenuItem(
+                            text = { Text("Sort by Name: Z-A") },
+                            onClick = {
+                                viewModel.sortProductsByNameDescending()
+                                expanded = false
+                            }
                         )
                     }
                 }

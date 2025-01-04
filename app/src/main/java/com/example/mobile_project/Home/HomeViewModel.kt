@@ -9,8 +9,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
-data class ProductsState (
-    val products: ArrayList<Product> = arrayListOf(),
+data class ProductsState(
+    val products: List<Product> = arrayListOf(),
     val isLoading: Boolean = false,
     val error: String? = null
 )
@@ -55,6 +55,30 @@ class HomeViewModel : ViewModel() {
                     error = exception.message
                 )
             }
+    }
+
+    fun sortProductsByPriceAscending() {
+        _uiState.value = _uiState.value.copy(
+            products = _uiState.value.products.sortedBy { it.price }
+        )
+    }
+
+    fun sortProductsByPriceDescending() {
+        _uiState.value = _uiState.value.copy(
+            products = _uiState.value.products.sortedByDescending { it.price }
+        )
+    }
+
+    fun sortProductsByNameAscending() {
+        _uiState.value = _uiState.value.copy(
+            products = _uiState.value.products.sortedBy { it.title }
+        )
+    }
+
+    fun sortProductsByNameDescending() {
+        _uiState.value = _uiState.value.copy(
+            products = _uiState.value.products.sortedByDescending { it.title }
+        )
     }
 
     private fun fetchCategoryForProduct(product: Product, callback: (Category?) -> Unit) {
