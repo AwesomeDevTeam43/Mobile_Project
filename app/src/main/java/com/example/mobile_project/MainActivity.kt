@@ -2,6 +2,7 @@
 package com.example.mobile_project
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -59,8 +60,10 @@ class MainActivity : ComponentActivity() {
                         }
                         composable(Screen.Product.route + "/{productId}") { backStackEntry ->
                             val productId = backStackEntry.arguments?.getString("productId")
-                            ProductView(productId = productId)
+                            Log.d("MainActivity", "Product ID: $productId")
+                            ProductView(navController = navController, productId = productId)
                         }
+
                         composable(Screen.Favorites.route) {
                             HomeView(navController = navController)
                         }

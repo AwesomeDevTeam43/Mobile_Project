@@ -28,38 +28,40 @@ class HomeViewModel : ViewModel() {
             isLoading = true,
             error = null
         )
-
-        firestore.collection("products")
-            .get()
-            .addOnSuccessListener { result ->
-                val productsResult = arrayListOf<Product>()
-                for (document in result) {
-                    val product = document.toObject(Product::class.java)
-                    fetchCategoryForProduct(product) { category ->
-                        product.category = category?.name
-                        productsResult.add(product)
-                        if (productsResult.size == result.size()) {
-                            productsResult.sortBy { it.title }
-                            allProducts = productsResult
-                            _uiState.value = ProductsState(
-                                products = productsResult,
-                                isLoading = false,
-                                error = null
-                            )
+            firestore.collection("products")
+                .get()
+                .addOnSuccessListener { result ->
+                    val productsResult = arrayListOf<Product>()
+                    for (document in result) {
+                        val product = document.toObject(Product::class.java).apply {
+                            id = document.id  // Set the Firestore document ID to the product's id field
+                        }
+                        fetchCategoryForProduct(product) { category ->
+                            product.category = category?.name
+                            productsResult.add(product)
+                            if (productsResult.size == result.size()) {
+                                productsResult.sortBy { it.title }
+                                allProducts = productsResult
+                                _uiState.value = ProductsState(
+                                    products = productsResult,
+                                    isLoading = false,
+                                    error = null
+                                )
+                            }
                         }
                     }
                 }
-            }
-            .addOnFailureListener { exception ->
-                Log.e("HomeViewModel", "Error getting documents: ", exception)
-                _uiState.value = ProductsState(
-                    isLoading = false,
-                    error = exception.message
-                )
-            }
-    }
+                .addOnFailureListener { exception ->
+                    Log.e("HomeViewModel", "Error getting documents: ", exception)
+                    _uiState.value = ProductsState(
+                        isLoading = false,
+                        error = exception.message
+                    )
+                }
+        }
 
-    fun filterProducts(query: String) {
+
+        fun filterProducts(query: String) {
         val filteredProducts = if (query.isEmpty()) {
             allProducts
         } else {
