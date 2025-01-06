@@ -21,6 +21,7 @@ class HomeViewModel : ViewModel() {
     val uiState: StateFlow<ProductsState> = _uiState.asStateFlow()
 
     private val firestore = FirebaseFirestore.getInstance()
+    private var allProducts: List<Product> = emptyList()
 
     fun fetchProducts() {
         _uiState.value = ProductsState(
@@ -39,6 +40,7 @@ class HomeViewModel : ViewModel() {
                         productsResult.add(product)
                         if (productsResult.size == result.size()) {
                             productsResult.sortBy { it.title }
+                            allProducts = productsResult
                             _uiState.value = ProductsState(
                                 products = productsResult,
                                 isLoading = false,
@@ -55,6 +57,17 @@ class HomeViewModel : ViewModel() {
                     error = exception.message
                 )
             }
+    }
+
+    fun filterProducts(query: String) {
+        val filteredProducts = if (query.isEmpty()) {
+            allProducts
+        } else {
+            allProducts.filter { product ->
+                product.title?.contains(query, ignoreCase = true) == true
+            }
+        }
+        _uiState.value = _uiState.value.copy(products = filteredProducts)
     }
 
     fun sortProductsByPriceAscending() {
