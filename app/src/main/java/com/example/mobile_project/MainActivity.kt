@@ -19,6 +19,7 @@ import com.example.mobile_project.Login.LoginView
 import com.example.mobile_project.Profile.ProfileView
 import com.example.mobile_project.Login.RegisterView
 import com.example.mobile_project.Products.ProductView
+import com.example.mobile_project.Review.AddReviewScreen
 import com.example.mobile_project.ui.theme.Mobile_ProjectTheme
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
@@ -63,12 +64,18 @@ class MainActivity : ComponentActivity() {
                             Log.d("MainActivity", "Product ID: $productId")
                             ProductView(navController = navController, productId = productId)
                         }
-
                         composable(Screen.Favorites.route) {
                             ProfileView(navController = navController)
                         }
                         composable(Screen.Profile.route) {
                             ProfileView(navController = navController)
+                        }
+                        composable(Screen.Review.route + "/{productId}") { backStackEntry ->
+                            val productId = backStackEntry.arguments?.getString("productId") ?: return@composable
+                            Log.d("MainActivity", "Product ID: $productId")
+                            AddReviewScreen(productId = productId) {
+                                navController.popBackStack()
+                            }
                         }
                     }
                 }
@@ -91,4 +98,5 @@ sealed class Screen(val route: String) {
     object Product : Screen("product")
     object Favorites : Screen("favorites")
     object Profile : Screen("profile")
+    object Review : Screen("review")
 }

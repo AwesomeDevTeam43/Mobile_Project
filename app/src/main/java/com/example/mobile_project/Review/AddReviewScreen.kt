@@ -1,5 +1,6 @@
 package com.example.mobile_project.Review
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material3.Button
@@ -15,7 +16,13 @@ import com.google.firebase.auth.FirebaseAuth
 @Composable
 fun AddReviewScreen(productId: String, onReviewAdded: () -> Unit) {
     val viewModel: AddReviewScreenModel = viewModel()
-    val userId = FirebaseAuth.getInstance().currentUser?.uid ?: ""
+    val user = FirebaseAuth.getInstance().currentUser
+    val userId = user?.uid ?: ""
+    val userName = user?.displayName ?: "Anonymous"
+    val userIcon = user?.photoUrl?.toString() ?: ""
+
+    Log.d("AddReviewScreen", "User ID: $userId, User Name: $userName, User Icon: $userIcon")
+
     var reviewText by remember { mutableStateOf("") }
     var rating by remember { mutableStateOf(0f) }
     var hasReviewed by remember { mutableStateOf(false) }
@@ -49,11 +56,16 @@ fun AddReviewScreen(productId: String, onReviewAdded: () -> Unit) {
                 val review = Review(
                     productId = productId,
                     userId = userId,
+                    userName = userName,
+                    userIcon = userIcon,
                     reviewText = reviewText,
                     rating = rating,
                     hasReviewed = true
                 )
-                viewModel.addReview(review, onSuccess = onReviewAdded, onFailure = { /* Handle error */ })
+                Log.d("AddReviewScreen", "Submitting review: $review")
+                viewModel.addReview(review, onSuccess = onReviewAdded, onFailure = { exception ->
+                    Log.e("AddReviewScreen", "Failed to add review: ${exception.message}")
+                })
             }) {
                 Text("Submit Review")
             }
