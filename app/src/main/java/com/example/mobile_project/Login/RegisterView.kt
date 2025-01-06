@@ -2,8 +2,11 @@ package com.example.mobile_project.Login
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -50,7 +53,20 @@ fun RegisterView(
             color = Color.White
         )
 
-        Spacer(modifier = Modifier.height(100.dp))
+        Spacer(modifier = Modifier.height(40.dp))
+
+        // Profile Icon
+        Icon(
+            imageVector = Icons.Default.Person,
+            contentDescription = "Profile Icon",
+            modifier = Modifier
+                .size(100.dp)
+                .background(Color.Gray, shape = CircleShape)
+                .padding(16.dp),
+            tint = Color.White
+        )
+
+        Spacer(modifier = Modifier.height(40.dp))
 
         Box(
             modifier = Modifier
@@ -73,9 +89,7 @@ fun RegisterView(
                         unfocusedIndicatorColor = Color.Gray
                     )
                 )
-
                 Spacer(modifier = Modifier.height(16.dp))
-
                 TextField(
                     value = state.email,
                     onValueChange = { viewModel.onEmailChange(it) },
