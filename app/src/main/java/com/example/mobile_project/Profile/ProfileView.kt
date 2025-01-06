@@ -1,5 +1,6 @@
 package com.example.mobile_project.Profile
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -13,12 +14,14 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import coil.compose.rememberImagePainter
 import com.example.mobile_project.Components.BottomBar
 import com.example.mobile_project.Components.TopBar
 import com.example.mobile_project.ui.theme.Mobile_ProjectTheme
@@ -86,7 +89,16 @@ fun ProfileViewContent(
                     .padding(16.dp)
             ) {
                 // Avatar or Profile Picture
-                Icon(
+                uiState.profileImageUrl?.let { url ->
+                    Image(
+                        painter = rememberImagePainter(url),
+                        contentDescription = "Profile Picture",
+                        modifier = Modifier
+                            .size(100.dp)
+                            .clip(CircleShape)
+                            .background(Color.Gray)
+                    )
+                } ?: Icon(
                     imageVector = Icons.Default.Person,
                     contentDescription = "Profile Picture",
                     modifier = Modifier

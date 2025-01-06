@@ -13,7 +13,8 @@ data class ProfileState(
     val username: String = "",
     val email: String = "",
     val isLoading: Boolean = false,
-    val error: String? = null
+    val error: String? = null,
+    val profileImageUrl: String? = null
 )
 
 class ProfileViewModel : ViewModel() {
@@ -32,13 +33,14 @@ class ProfileViewModel : ViewModel() {
             try {
                 val user = FirebaseAuth.getInstance().currentUser
                 if (user != null) {
-                    // Fetch username from Firestore
                     firestore.collection("users").document(user.uid).get()
                         .addOnSuccessListener { document ->
                             val username = document.getString("username") ?: "No Name"
+                            val profileImageUrl = document.getString("profileImageUrl")
                             _uiState.value = ProfileState(
                                 username = username,
                                 email = user.email ?: "No Email",
+                                profileImageUrl = profileImageUrl,
                                 isLoading = false
                             )
                         }
