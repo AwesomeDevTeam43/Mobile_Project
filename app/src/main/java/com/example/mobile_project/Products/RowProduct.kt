@@ -28,6 +28,7 @@ import com.example.mobile_project.R
 import com.example.mobile_project.ui.theme.Mobile_ProjectTheme
 import java.util.Date
 import coil.compose.AsyncImage
+import com.example.mobile_project.Components.formatPrice
 import com.example.mobile_project.ui.theme.Blue02
 
 
@@ -78,7 +79,7 @@ fun RowProduct(
         Spacer(modifier = Modifier.height(8.dp))
 
         Text(
-            text = "Price: ${product.price}€",
+            text = "Price: ${product.price?.formatPrice()}",
             style = MaterialTheme.typography.bodyLarge,
             color = Blue02
         )

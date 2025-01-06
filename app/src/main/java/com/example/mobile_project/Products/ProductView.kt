@@ -27,6 +27,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.example.mobile_project.Components.formatPrice
 import com.example.mobile_project.ui.theme.White01
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -107,7 +108,7 @@ fun ProductView(
                         style = MaterialTheme.typography.bodyMedium
                     )
                     Text(
-                        text = "Price: ${product.price}€",
+                        text = "Price: ${product.price?.formatPrice()}",
                         style = MaterialTheme.typography.bodyLarge,
                         color = MaterialTheme.colorScheme.primary
                     )
