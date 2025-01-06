@@ -7,7 +7,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -22,6 +24,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
@@ -56,13 +59,15 @@ fun HomeView(
     val uiState by viewModel.uiState.collectAsState()
     val showLogoutDialog = remember { mutableStateOf(false) }
     var expanded by remember { mutableStateOf(false) }
+    var showSearch by remember { mutableStateOf(false) }
+    var query by remember { mutableStateOf("") }
 
     Scaffold(
         topBar = {
             TopBar(
                 title = "Home",
                 actions = {
-                    IconButton(onClick = { /* Ação para pesquisar */ }) {
+                    IconButton(onClick = { showSearch = !showSearch }) {
                         Icon(
                             imageVector = Icons.Default.Search,
                             contentDescription = "Search",
@@ -71,7 +76,7 @@ fun HomeView(
                     }
                     IconButton(onClick = { expanded = true }) {
                         Icon(
-                            imageVector = Icons.Default.MoreVert, // Ícone de 3 pontos
+                            imageVector = Icons.Default.MoreVert, // Icon with 3 dots
                             contentDescription = "More",
                             tint = Color.White
                         )
@@ -114,11 +119,26 @@ fun HomeView(
         },
         bottomBar = { BottomBar(navController) }
     ) { paddingValues ->
-        HomeViewContent(
-            modifier = modifier.padding(paddingValues),
-            uiState = uiState,
-            navController = navController
-        )
+        Column(modifier = modifier.padding(paddingValues)) {
+            if (showSearch) {
+                TextField(
+                    value = query,
+                    onValueChange = {
+                        query = it
+                        viewModel.filterProducts(query)
+                    },
+                    label = { Text("Search") },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp)
+                )
+            }
+            HomeViewContent(
+                modifier = Modifier.fillMaxSize(),
+                uiState = uiState,
+                navController = navController
+            )
+        }
     }
 
     BackHandler(enabled = true) {
