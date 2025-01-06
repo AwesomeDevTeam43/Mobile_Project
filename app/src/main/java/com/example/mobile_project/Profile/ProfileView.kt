@@ -79,7 +79,7 @@ fun ProfileViewContent(
     onLogout: () -> Unit
 ) {
     Box(
-        modifier = modifier,
+        modifier = modifier.background(Color.White),
         contentAlignment = Alignment.Center
     ) {
         if (uiState.isLoading) {
