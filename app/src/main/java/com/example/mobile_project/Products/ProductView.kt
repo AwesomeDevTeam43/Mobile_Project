@@ -2,11 +2,14 @@ package com.example.mobile_project.Products
 
 import android.util.Log
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -73,6 +76,7 @@ fun ProductView(
                     Text(
                         text = product.title ?: "",
                         style = MaterialTheme.typography.titleLarge,
+                        color = Color.Black,
                         maxLines = 2,
                         overflow = TextOverflow.Ellipsis,
                     )
@@ -81,25 +85,22 @@ fun ProductView(
                         text = product.description ?: "",
                         maxLines = 4,
                         overflow = TextOverflow.Ellipsis,
-                        style = MaterialTheme.typography.bodyMedium
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = Color.DarkGray
                     )
+                    Spacer(modifier = Modifier.height(15.dp))
                     Text(
                         text = "Category: $categoryName",
-                        style = MaterialTheme.typography.bodyMedium
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = Color.DarkGray
                     )
+                    Spacer(modifier = Modifier.height(15.dp))
                     Text(
                         text = "Price: ${product.price?.formatPrice()}",
                         style = MaterialTheme.typography.bodyLarge,
                         color = MaterialTheme.colorScheme.primary
                     )
-                    Spacer(modifier = Modifier.height(20.dp))
-                    Button(onClick = {
-                        navController.navigate("review/${product.id}")
-                    }) {
-                        Text("Add Review")
-                    }
-                    Spacer(modifier = Modifier.height(20.dp))
-                    product.id?.let { ReviewsSection(productId = it) }
+                    product.id?.let { ReviewsSection(productId = it, navController = navController) }
                 }
             }
         }
@@ -107,16 +108,34 @@ fun ProductView(
 }
 
 @Composable
-fun ReviewsSection(productId: String) {
+fun ReviewsSection(productId: String, navController: NavHostController) {
     val viewModel: ReviewsViewModel = viewModel()
     val reviews by viewModel.getReviewsForProduct(productId).collectAsState(initial = emptyList())
 
     Column(modifier = Modifier.padding(16.dp)) {
-        Text(
-            text = "Reviews",
-            style = MaterialTheme.typography.titleMedium,
-            modifier = Modifier.padding(bottom = 8.dp)
-        )
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ){
+            Text(
+                text = "Reviews",
+                style = MaterialTheme.typography.titleMedium,
+                color = Color.Black,
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
+            Icon(
+                imageVector = Icons.Default.Add,
+                contentDescription = "AddReview",
+
+                tint = Color.Black,
+                modifier = Modifier
+                    .size(24.dp)
+                    .clickable {
+                        navController.navigate("review/$productId")
+                    }
+            )
+        }
+
         if (reviews.isEmpty()) {
             Log.d("ReviewsSection", "No reviews found for product ID: $productId")
             Text(text = "No reviews yet.", style = MaterialTheme.typography.bodyMedium)
@@ -154,7 +173,7 @@ fun ReviewItem(review: Review) {
             Text(
                 text = review.userName ?: "Anonymous",
                 style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.primary
+                color = Color.Black
             )
             Text(
                 text = "Rating: ${review.rating}",
@@ -165,6 +184,7 @@ fun ReviewItem(review: Review) {
             Text(
                 text = review.reviewText ?: "",
                 style = MaterialTheme.typography.bodySmall,
+                color = Color.DarkGray,
                 modifier = Modifier.padding(bottom = 4.dp)
             )
         }
