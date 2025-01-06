@@ -4,7 +4,7 @@ import com.google.firebase.firestore.IgnoreExtraProperties
 
 @IgnoreExtraProperties
 data class Product(
-    var id: Int? = null,
+    var id: String? = null,
     var title: String? = null,
     var price: Double? = 0.0,
     var description: String? = null,
