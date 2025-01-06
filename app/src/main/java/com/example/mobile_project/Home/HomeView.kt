@@ -1,5 +1,5 @@
+// HomeView.kt
 package com.example.mobile_project.Home
-
 
 import android.util.Log
 import androidx.activity.compose.BackHandler
@@ -42,6 +42,7 @@ import com.example.mobile_project.Components.TopBar
 import com.example.mobile_project.Products.RowProduct
 import com.example.mobile_project.Products.Product
 import com.example.mobile_project.Profile.ProfileViewModel
+import com.example.mobile_project.Screen
 import com.example.mobile_project.ui.theme.Mobile_ProjectTheme
 
 @Composable
@@ -143,29 +144,6 @@ fun HomeView(
     }
 }
 
-
-@Composable
-fun LogoutConfirmationDialog(
-    onConfirm: () -> Unit,
-    onDismiss: () -> Unit
-) {
-    AlertDialog(
-        onDismissRequest = { onDismiss() },
-        title = { Text("Confirm Logout") },
-        text = { Text("Are you sure you want to logout?") },
-        confirmButton = {
-            Button(onClick = { onConfirm() }) {
-                Text("Logout")
-            }
-        },
-        dismissButton = {
-            Button(onClick = { onDismiss() }) {
-                Text("Cancel")
-            }
-        }
-    )
-}
-
 @Composable
 fun HomeViewContent(
     modifier: Modifier = Modifier
@@ -195,7 +173,7 @@ fun HomeViewContent(
                         modifier = modifier
                             .padding(vertical = 8.dp)
                             .clickable {
-                                Log.d("Product Clicked", product.url ?: "none")
+                                navController.navigate(Screen.Product.route + "/${product.id}")
                             },
                         product = product
                     )
@@ -203,6 +181,28 @@ fun HomeViewContent(
             }
         }
     }
+}
+
+@Composable
+fun LogoutConfirmationDialog(
+    onConfirm: () -> Unit,
+    onDismiss: () -> Unit
+) {
+    AlertDialog(
+        onDismissRequest = { onDismiss() },
+        title = { Text("Confirm Logout") },
+        text = { Text("Are you sure you want to logout?") },
+        confirmButton = {
+            Button(onClick = { onConfirm() }) {
+                Text("Logout")
+            }
+        },
+        dismissButton = {
+            Button(onClick = { onDismiss() }) {
+                Text("Cancel")
+            }
+        }
+    )
 }
 
 @Preview(showBackground = true)

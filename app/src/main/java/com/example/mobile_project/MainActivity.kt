@@ -17,6 +17,7 @@ import com.example.mobile_project.Home.HomeView
 import com.example.mobile_project.Login.LoginView
 import com.example.mobile_project.Profile.ProfileView
 import com.example.mobile_project.Login.RegisterView
+import com.example.mobile_project.Products.ProductView
 import com.example.mobile_project.ui.theme.Mobile_ProjectTheme
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
@@ -56,8 +57,9 @@ class MainActivity : ComponentActivity() {
                         composable(Screen.Home.route) {
                             HomeView(navController = navController)
                         }
-                        composable(Screen.Product.route) {
-                            HomeView(navController = navController)
+                        composable(Screen.Product.route + "/{productId}") { backStackEntry ->
+                            val productId = backStackEntry.arguments?.getString("productId")
+                            ProductView(productId = productId)
                         }
                         composable(Screen.Favorites.route) {
                             HomeView(navController = navController)

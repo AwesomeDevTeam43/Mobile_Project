@@ -1,3 +1,4 @@
+// ProductView.kt
 package com.example.mobile_project.Products
 
 import androidx.compose.foundation.background
@@ -31,75 +32,86 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 @Composable
 fun ProductView(
-    modifier: Modifier = Modifier, product: Product
+    modifier: Modifier = Modifier, productId: String?
 ) {
+    val product = remember { mutableStateOf<Product?>(null) }
     val categoryName = remember { mutableStateOf("N/A") }
 
-    LaunchedEffect(product.category) {
-        product.category?.let { categoryId ->
-            FirebaseFirestore.getInstance().collection("categories").document(categoryId)
+    LaunchedEffect(productId) {
+        productId?.let {
+            FirebaseFirestore.getInstance().collection("products").document(it)
                 .get()
                 .addOnSuccessListener { document ->
-                    val category = document.toObject(Category::class.java)
-                    categoryName.value = category?.name ?: "N/A"
-                }
-                .addOnFailureListener {
-                    categoryName.value = "N/A"
+                    val fetchedProduct = document.toObject(Product::class.java)
+                    product.value = fetchedProduct
+                    fetchedProduct?.category?.let { categoryId ->
+                        FirebaseFirestore.getInstance().collection("categories").document(categoryId)
+                            .get()
+                            .addOnSuccessListener { categoryDocument ->
+                                val category = categoryDocument.toObject(Category::class.java)
+                                categoryName.value = category?.name ?: "N/A"
+                            }
+                            .addOnFailureListener {
+                                categoryName.value = "N/A"
+                            }
+                    }
                 }
         }
     }
 
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .background(Color(White01.value))
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Row(modifier = Modifier) {
-            product.images?.firstOrNull()?.let { imageUrl ->
-                AsyncImage(
-                    model = imageUrl,
-                    contentDescription = "Product Image",
-                    modifier = Modifier
-                        .height(240.dp)
-                        .width(240.dp)
-                        .clip(RoundedCornerShape(8.dp))
-                        .padding(6.dp),
-                    contentScale = ContentScale.Crop
-                )
+    product.value?.let { product ->
+        Column(
+            modifier = modifier
+                .fillMaxSize()
+                .background(Color(White01.value))
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Row(modifier = Modifier) {
+                product.images?.firstOrNull()?.let { imageUrl ->
+                    AsyncImage(
+                        model = imageUrl,
+                        contentDescription = "Product Image",
+                        modifier = Modifier
+                            .height(240.dp)
+                            .width(240.dp)
+                            .clip(RoundedCornerShape(8.dp))
+                            .padding(6.dp),
+                        contentScale = ContentScale.Crop
+                    )
+                }
             }
-        }
-        Row(modifier = Modifier.fillMaxSize(),
-            verticalAlignment = Alignment.CenterVertically)
-        {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                Text(
-                    text = product.title ?: "",
-                    style = MaterialTheme.typography.titleLarge,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis,
-                )
-                Spacer(modifier = Modifier.height(20.dp))
-                Text(
-                    text = product.description ?: "",
-                    maxLines = 4,
-                    overflow = TextOverflow.Ellipsis,
-                    style = MaterialTheme.typography.bodyMedium
-                )
-                Text(
-                    text = "Category: ${categoryName.value}",
-                    style = MaterialTheme.typography.bodyMedium
-                )
-                Text(
-                    text = "Price: ${product.price}€",
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.primary
-                )
+            Row(modifier = Modifier.fillMaxSize(),
+                verticalAlignment = Alignment.CenterVertically)
+            {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
+                    Text(
+                        text = product.title ?: "",
+                        style = MaterialTheme.typography.titleLarge,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis,
+                    )
+                    Spacer(modifier = Modifier.height(20.dp))
+                    Text(
+                        text = product.description ?: "",
+                        maxLines = 4,
+                        overflow = TextOverflow.Ellipsis,
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                    Text(
+                        text = "Category: ${categoryName.value}",
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                    Text(
+                        text = "Price: ${product.price}€",
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                }
             }
         }
     }
@@ -109,11 +121,6 @@ fun ProductView(
 @Composable
 fun ProductViewPreview() {
     ProductView(
-        product = Product(
-            title = "Name",
-            images = listOf("https://media.istockphoto"),
-            description = "Description",
-            price = 0.0
-        )
+        productId = "sampleProductId"
     )
 }
