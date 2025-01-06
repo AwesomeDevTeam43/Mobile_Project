@@ -14,8 +14,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -30,55 +28,27 @@ import com.example.mobile_project.Components.BottomBar
 import com.example.mobile_project.Components.TopBar
 import com.example.mobile_project.Components.formatPrice
 import com.example.mobile_project.ui.theme.White01
-import com.google.firebase.firestore.FirebaseFirestore
 
 @Composable
 fun ProductView(
     modifier: Modifier = Modifier, productId: String?, navController: NavHostController
 ) {
-    val product = remember { mutableStateOf<Product?>(null) }
-    val categoryName = remember { mutableStateOf("N/A") }
+    val viewModel: ProductViewModel = viewModel()
+    val product = viewModel.product.collectAsState().value
+    val categoryName = viewModel.categoryName.collectAsState().value
 
     LaunchedEffect(productId) {
         if (productId == null) {
             Log.d("ProductView", "Product ID is null")
-            return@LaunchedEffect
         } else {
-            productId?.let {
-                Log.d("ProductView", "Fetching product with ID: $it")
-                FirebaseFirestore.getInstance().collection("products").document(it)
-                    .get()
-                    .addOnSuccessListener { document ->
-                        val fetchedProduct = document.toObject(Product::class.java)
-                        product.value = fetchedProduct
-                        Log.d("ProductView", "Fetched product: $fetchedProduct")
-                        fetchedProduct?.category?.let { categoryId ->
-                            Log.d("ProductView", "Fetching category with ID: $categoryId")
-                            FirebaseFirestore.getInstance().collection("categories")
-                                .document(categoryId)
-                                .get()
-                                .addOnSuccessListener { categoryDocument ->
-                                    val category = categoryDocument.toObject(Category::class.java)
-                                    categoryName.value = category?.name ?: "N/A"
-                                    Log.d("ProductView", "Fetched category: $category")
-                                }
-                                .addOnFailureListener {
-                                    categoryName.value = "N/A"
-                                    Log.d("ProductView", "Failed to fetch category")
-                                }
-                        }
-                    }
-                    .addOnFailureListener {
-                        Log.d("ProductView", "Failed to fetch product")
-                    }
-            }
+            viewModel.fetchProduct(productId)
         }
     }
 
     Scaffold(
         topBar = {
             TopBar(
-                title = product.value?.title ?: "Product",
+                title = product?.title ?: "Product",
                 actions = {
                     IconButton(onClick = { /* Ação para favoritar */ }) {
                         Icon(
@@ -94,7 +64,7 @@ fun ProductView(
             BottomBar(navController = navController)
         }
     ) { paddingValues ->
-        product.value?.let { product ->
+        product?.let { product ->
             Column(
                 modifier = modifier
                     .fillMaxSize()
@@ -139,7 +109,7 @@ fun ProductView(
                             style = MaterialTheme.typography.bodyMedium
                         )
                         Text(
-                            text = "Category: ${categoryName.value}",
+                            text = "Category: $categoryName",
                             style = MaterialTheme.typography.bodyMedium
                         )
                         Text(
