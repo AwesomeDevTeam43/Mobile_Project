@@ -21,6 +21,7 @@ class ProductViewModel : ViewModel() {
                 .get()
                 .addOnSuccessListener { document ->
                     val fetchedProduct = document.toObject(Product::class.java)
+                    fetchedProduct?.id = productId // Ensure productId is set
                     _product.value = fetchedProduct
                     Log.d("ProductViewModel", "Fetched product: $fetchedProduct")
                     fetchedProduct?.category?.let { categoryId ->

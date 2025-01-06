@@ -65,7 +65,7 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable(Screen.Favorites.route) {
-                            HomeView(navController = navController)
+                            ProfileView(navController = navController)
                         }
                         composable(Screen.Profile.route) {
                             ProfileView(navController = navController)

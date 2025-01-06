@@ -40,13 +40,6 @@ fun BottomBar(navController: NavController) {
             )
         }
         Spacer(modifier = Modifier.weight(1f))
-        IconButton(onClick = { navController.navigate("favorites") }) {
-            Icon(
-                imageVector = Icons.Default.Favorite,
-                contentDescription = "Favorites",
-                tint = Color.White
-            )
-        }
         IconButton(onClick = { navController.navigate("profile") }) {
             Icon(
                 imageVector = Icons.Default.Person,
