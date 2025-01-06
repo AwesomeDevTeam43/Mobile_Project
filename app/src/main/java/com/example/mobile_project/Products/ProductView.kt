@@ -3,6 +3,8 @@ package com.example.mobile_project.Products
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
@@ -119,10 +121,15 @@ fun ReviewsSection(productId: String) {
             Log.d("ReviewsSection", "No reviews found for product ID: $productId")
             Text(text = "No reviews yet.", style = MaterialTheme.typography.bodyMedium)
         } else {
-            reviews.forEach { review ->
-                Log.d("ReviewsSection", "Displaying review: $review")
-                ReviewItem(review = review)
-                Divider(modifier = Modifier.padding(vertical = 8.dp))
+            LazyColumn(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                items(reviews) { review ->
+                    Log.d("ReviewsSection", "Displaying review: $review")
+                    ReviewItem(review = review)
+                    Divider(modifier = Modifier.padding(vertical = 8.dp))
+                }
             }
         }
     }
