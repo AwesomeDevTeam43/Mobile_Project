@@ -9,10 +9,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.mobile_project.Components.BottomBar
 import com.example.mobile_project.Favorites.FavoritesView
 import com.example.mobile_project.Home.HomeView
 import com.example.mobile_project.Login.LoginView
@@ -21,8 +26,8 @@ import com.example.mobile_project.Login.RegisterView
 import com.example.mobile_project.Products.ProductView
 import com.example.mobile_project.Review.AddReviewScreen
 import com.example.mobile_project.ui.theme.Mobile_ProjectTheme
-import com.google.firebase.Firebase
-import com.google.firebase.auth.auth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 const val TAG = "MobileProject"
 
@@ -33,7 +38,16 @@ class MainActivity : ComponentActivity() {
         setContent {
             Mobile_ProjectTheme {
                 val navController = rememberNavController()
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                var isBottomBarHidden by remember { mutableStateOf(false) }
+
+                Scaffold(
+                    modifier = Modifier.fillMaxSize(),
+                    bottomBar = {
+                        if (!isBottomBarHidden) {
+                            BottomBar(navController = navController)
+                        }
+                    }
+                ) { innerPadding ->
                     NavHost(
                         modifier = Modifier.padding(innerPadding),
                         navController = navController,
@@ -57,18 +71,23 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                         composable(Screen.Home.route) {
-                            HomeView(navController = navController)
+                            HomeView(navController = navController,
+                                bottomBar = { BottomBar(navController = navController) })
                         }
                         composable(Screen.Product.route + "/{productId}") { backStackEntry ->
                             val productId = backStackEntry.arguments?.getString("productId")
                             Log.d("MainActivity", "Product ID: $productId")
-                            ProductView(navController = navController, productId = productId)
+                            ProductView(navController = navController, productId = productId, bottomBar = { BottomBar(navController = navController) })
                         }
                         composable(Screen.Favorites.route) {
-                            FavoritesView(navController = navController)
+                            FavoritesView(navController = navController,
+                                bottomBar = { BottomBar(navController = navController) })
                         }
                         composable(Screen.Profile.route) {
-                            ProfileView(navController = navController)
+                            ProfileView(
+                                navController = navController,
+                                bottomBar = { BottomBar(navController = navController) }
+                            )
                         }
                         composable(Screen.Review.route + "/{productId}") { backStackEntry ->
                             val productId = backStackEntry.arguments?.getString("productId") ?: return@composable
@@ -79,6 +98,7 @@ class MainActivity : ComponentActivity() {
                         }
                     }
                 }
+
                 LaunchedEffect(Unit) {
                     val auth = Firebase.auth
                     val currentUser = auth.currentUser

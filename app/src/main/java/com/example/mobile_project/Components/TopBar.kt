@@ -26,7 +26,6 @@ fun TopBar(
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = Orange01
         ),
-        windowInsets = WindowInsets(0, 0, 0, 0)
     )
 }
 

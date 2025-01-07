@@ -30,6 +30,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -52,7 +54,8 @@ fun HomeView(
     modifier: Modifier = Modifier
         .fillMaxSize()
         .background(color = Color.White),
-    navController: NavController = rememberNavController()
+    navController: NavController = rememberNavController(),
+    bottomBar: @Composable () -> Unit = {}
 ) {
     val viewModel: HomeViewModel = viewModel()
     val profileViewModel: ProfileViewModel = viewModel()
@@ -61,6 +64,7 @@ fun HomeView(
     var expanded by remember { mutableStateOf(false) }
     var showSearch by remember { mutableStateOf(false) }
     var query by remember { mutableStateOf("") }
+    var selectedIndex by rememberSaveable { mutableIntStateOf(0) }
 
     Scaffold(
         topBar = {
@@ -117,7 +121,6 @@ fun HomeView(
                 }
             )
         },
-        bottomBar = { BottomBar(navController) }
     ) { paddingValues ->
         Column(modifier = modifier.padding(paddingValues)) {
             if (showSearch) {

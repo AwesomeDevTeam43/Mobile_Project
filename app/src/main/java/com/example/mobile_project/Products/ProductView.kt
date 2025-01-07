@@ -30,7 +30,9 @@ import com.example.mobile_project.ui.theme.White01
 
 @Composable
 fun ProductView(
-    modifier: Modifier = Modifier, productId: String?, navController: NavHostController
+    modifier: Modifier = Modifier, productId: String?,
+    navController: NavHostController,
+    bottomBar: @Composable () -> Unit = {}
 ) {
     val viewModel: ProductViewModel = viewModel()
     val reviewsViewModel: ReviewsViewModel = viewModel()

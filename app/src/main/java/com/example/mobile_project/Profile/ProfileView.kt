@@ -38,22 +38,17 @@ fun ProfileView(
     modifier: Modifier = Modifier
         .fillMaxSize()
         .background(color = MaterialTheme.colorScheme.background),
-    navController: NavController = rememberNavController()
+    navController: NavController = rememberNavController(),
+    bottomBar: @Composable () -> Unit = {}
 ) {
     val viewModel: ProfileViewModel = viewModel()
     val uiState by viewModel.uiState.collectAsState()
 
     Scaffold(
-        topBar = {
-            TopBar(
-                title = "Profile",
-
-            )
-        },
-        bottomBar = { BottomBar(navController) }
-    ) { paddingValues ->
+        modifier = modifier
+    ) { innerPadding ->
         ProfileViewContent(
-            modifier = modifier.padding(paddingValues),
+            modifier = Modifier.padding(innerPadding),
             uiState = uiState,
             onLogout = {
                 viewModel.logout()
@@ -65,6 +60,7 @@ fun ProfileView(
         )
     }
 }
+
 
 @Composable
 fun ProfileViewContent(

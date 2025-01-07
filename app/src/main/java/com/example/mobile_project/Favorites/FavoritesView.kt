@@ -22,7 +22,8 @@ import com.example.mobile_project.Products.RowProduct
 @Composable
 fun FavoritesView(
     modifier: Modifier = Modifier,
-    navController: NavController
+    navController: NavController,
+    bottomBar: @Composable () -> Unit = {}
 ) {
     val viewModel: FavoritesViewModel = viewModel()
     val uiState by viewModel.uiState.collectAsState()
@@ -76,7 +77,6 @@ fun FavoritesView(
                 }
             )
         },
-        bottomBar = { BottomBar(navController) }
     ) { paddingValues ->
         Box(modifier = modifier
             .fillMaxSize()
