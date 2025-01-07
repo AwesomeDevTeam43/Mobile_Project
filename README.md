@@ -1,6 +1,7 @@
 
 # Social Shop
 Projeto Desenvolvido no ambito da Disicplina Desenvolvimento de Jogos para Plataformas Móveis do curso Engenharia e Desenvolvimento de Jogos Digitais.
+
 #
 
 Feito por :
@@ -34,8 +35,11 @@ Após efetuar o Login o usuário será redirecionado para a página Home onde os
 ![image](https://github.com/user-attachments/assets/ecb945d1-5825-4562-a71e-6dec1468bf34)
 
 #
-Na Top
-Para ajudar na procura por um produto, o usuário tem a possibilidade de organizar a ordem de exibição de produtos por pârametros ou usar a barra de pesquisa para procurar pelo nome de um produto.
+
+Na TopBar o usuário conta com ferramentas para ajudar na procura por um produto, possibilitando a organização da ordem de exibição de produtos por pârametros ou usar a barra de pesquisa para procurar pelo nome de um produto em específico.
 
 ![image](https://github.com/user-attachments/assets/86fd353c-0d08-447f-8164-c49783683187)
 ![image](https://github.com/user-attachments/assets/93e57888-cd3d-4da2-a4d0-2cc6a681a717)
+
+#
+
