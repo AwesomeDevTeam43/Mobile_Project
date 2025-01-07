@@ -33,9 +33,13 @@ fun ProductView(
     modifier: Modifier = Modifier, productId: String?, navController: NavHostController
 ) {
     val viewModel: ProductViewModel = viewModel()
+    val reviewsViewModel: ReviewsViewModel = viewModel()
     val product by viewModel.product.collectAsState()
     val categoryName by viewModel.categoryName.collectAsState()
     val isFavorite by viewModel.isFavorite.collectAsState()
+    val averageRating by reviewsViewModel.getAverageRating(productId ?: "").collectAsState(initial = (0.0))
+
+
 
     LaunchedEffect(productId) {
         if (productId == null) {
@@ -99,6 +103,12 @@ fun ProductView(
                     Spacer(modifier = Modifier.height(15.dp))
                     Text(
                         text = "Price: ${product.price?.formatPrice()}",
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                    Spacer(modifier = Modifier.height(15.dp))
+                    Text(
+                        text = "Average Rating: ${"%.1f".format(averageRating)}" ?: "No reviews yet",
                         style = MaterialTheme.typography.bodyLarge,
                         color = MaterialTheme.colorScheme.primary
                     )
@@ -188,7 +198,7 @@ fun ReviewItem(review: Review) {
                 color = Color.Black
             )
             Text(
-                text = "Rating: ${review.rating}",
+                text = "rat: ${review.rating}",
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.primary
             )

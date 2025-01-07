@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.tasks.await
 
 class ReviewsViewModel : ViewModel() {
@@ -32,6 +33,16 @@ class ReviewsViewModel : ViewModel() {
         } catch (e: Exception) {
             Log.e("ReviewsViewModel", "Error fetching reviews: ${e.message}")
             emit(emptyList())
+        }
+    }
+
+    fun getAverageRating(productId: String): Flow<Double> {
+        return getReviewsForProduct(productId).map { reviews ->
+            if (reviews.isNotEmpty()) {
+                reviews.mapNotNull { it.rating?.toDouble() }.average()
+            } else {
+                0.0
+            }
         }
     }
 }
