@@ -1,5 +1,6 @@
 package com.example.mobile_project.Products
 
+import ProductViewModel
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -34,6 +35,7 @@ fun ProductView(
     val viewModel: ProductViewModel = viewModel()
     val product by viewModel.product.collectAsState()
     val categoryName by viewModel.categoryName.collectAsState()
+    val isFavorite by viewModel.isFavorite.collectAsState()
 
     LaunchedEffect(productId) {
         if (productId == null) {
@@ -101,8 +103,14 @@ fun ProductView(
                         color = MaterialTheme.colorScheme.primary
                     )
                     Spacer(modifier = Modifier.height(15.dp))
-                    Button(onClick = { viewModel.addToFavorites(product.id!!) }) {
-                        Text("Add to Favorites")
+                    Button(onClick = {
+                        if (isFavorite) {
+                            viewModel.removeFromFavorites(product.id!!)
+                        } else {
+                            viewModel.addToFavorites(product.id!!)
+                        }
+                    }) {
+                        Text(if (isFavorite) "Remove from Favorites" else "Add to Favorites")
                     }
                     product.id?.let { ReviewsSection(productId = it, navController = navController) }
                 }
