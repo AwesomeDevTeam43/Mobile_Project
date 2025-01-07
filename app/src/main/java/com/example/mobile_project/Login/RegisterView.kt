@@ -23,9 +23,11 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.mobile_project.ui.theme.Black01
 import com.example.mobile_project.ui.theme.Blue01
 import com.example.mobile_project.ui.theme.Mobile_ProjectTheme
 import com.example.mobile_project.ui.theme.Orange01
+import com.example.mobile_project.ui.theme.White01
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -36,7 +38,6 @@ fun RegisterView(
 ) {
     val viewModel: RegisterViewModel = viewModel()
     val state = viewModel.state.value
-    val context = LocalContext.current
 
     Column(
         modifier = modifier
@@ -61,9 +62,9 @@ fun RegisterView(
             contentDescription = "Profile Icon",
             modifier = Modifier
                 .size(100.dp)
-                .background(Color.Gray, shape = CircleShape)
+                .background(White01, shape = CircleShape)
                 .padding(16.dp),
-            tint = Color.White
+            tint = Orange01
         )
 
         Spacer(modifier = Modifier.height(40.dp))
@@ -76,13 +77,12 @@ fun RegisterView(
         ) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Spacer(modifier = Modifier.height(16.dp))
-
-                // Username TextField
                 TextField(
                     value = state.username,
                     onValueChange = { viewModel.onUsernameChange(it) },
                     placeholder = { Text("Username") },
                     modifier = Modifier.fillMaxWidth(),
+                    textStyle = LocalTextStyle.current.copy(color = Black01),
                     colors = TextFieldDefaults.textFieldColors(
                         containerColor = Color.Transparent,
                         focusedIndicatorColor = Color.Gray,
@@ -95,6 +95,7 @@ fun RegisterView(
                     onValueChange = { viewModel.onEmailChange(it) },
                     placeholder = { Text("Email") },
                     modifier = Modifier.fillMaxWidth(),
+                    textStyle = LocalTextStyle.current.copy(color = Black01),
                     colors = TextFieldDefaults.textFieldColors(
                         containerColor = Color.Transparent,
                         focusedIndicatorColor = Color.Gray,
@@ -111,6 +112,7 @@ fun RegisterView(
                     visualTransformation = PasswordVisualTransformation(),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                     modifier = Modifier.fillMaxWidth(),
+                    textStyle = LocalTextStyle.current.copy(color = Black01),
                     colors = TextFieldDefaults.textFieldColors(
                         containerColor = Color.Transparent,
                         focusedIndicatorColor = Color.Gray,
@@ -136,7 +138,6 @@ fun RegisterView(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Register Link
                 TextButton(
                     onClick = { navController.navigate("Login") }
                 ) {

@@ -1,4 +1,3 @@
-// HomeView.kt
 package com.example.mobile_project.Home
 
 import android.util.Log

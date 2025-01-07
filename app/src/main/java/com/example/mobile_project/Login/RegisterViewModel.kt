@@ -1,16 +1,13 @@
 package com.example.mobile_project.Login
 
-import android.net.Uri
 import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.example.mobile_project.TAG
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.FirebaseStorage
 
 data class RegisterState(
     val username: String = "",
@@ -71,20 +68,6 @@ class RegisterViewModel : ViewModel() {
                     // Registration failed
                     Log.w(TAG, "createUserWithEmail:failure", task.exception)
                     state.value = state.value.copy(error = task.exception?.message ?: "Unknown error")
-                }
-            }
-    }
-
-    private fun saveUserDataToFirestore(user: FirebaseUser?, userData: HashMap<String, String>, onRegisterSuccess: () -> Unit) {
-        val firestore = FirebaseFirestore.getInstance()
-        firestore.collection("users").document(user?.uid ?: "")
-            .set(userData)
-            .addOnCompleteListener { firestoreTask ->
-                state.value = state.value.copy(isLoading = false)
-                if (firestoreTask.isSuccessful) {
-                    onRegisterSuccess()
-                } else {
-                    state.value = state.value.copy(error = firestoreTask.exception?.message)
                 }
             }
     }

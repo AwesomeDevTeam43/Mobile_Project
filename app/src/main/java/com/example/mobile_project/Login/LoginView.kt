@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.mobile_project.ui.theme.Black01
 import com.example.mobile_project.ui.theme.Blue01
 import com.example.mobile_project.ui.theme.Mobile_ProjectTheme
 import com.example.mobile_project.ui.theme.Orange01
@@ -36,7 +37,7 @@ fun LoginView(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(Color(Orange01.value)), // Orange background
+            .background(Color(Orange01.value)),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(modifier = Modifier.height(80.dp))
@@ -63,6 +64,7 @@ fun LoginView(
                     onValueChange = { viewModel.onEmailChange(it) },
                     placeholder = { Text("Email") },
                     modifier = Modifier.fillMaxWidth(),
+                    textStyle = LocalTextStyle.current.copy(color = Black01),
                     colors = TextFieldDefaults.textFieldColors(
                         containerColor = Color.Transparent,
                         focusedIndicatorColor = Color.Gray,
@@ -79,6 +81,7 @@ fun LoginView(
                     visualTransformation = PasswordVisualTransformation(),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                     modifier = Modifier.fillMaxWidth(),
+                    textStyle = LocalTextStyle.current.copy(color = Black01),
                     colors = TextFieldDefaults.textFieldColors(
                         containerColor = Color.Transparent,
                         focusedIndicatorColor = Color.Gray,
@@ -88,7 +91,6 @@ fun LoginView(
 
                 Spacer(modifier = Modifier.height(32.dp))
 
-                // Login Button
                 Button(
                     onClick = { viewModel.onLoginClick { onLoginSuccess() } },
                     modifier = Modifier
@@ -105,7 +107,6 @@ fun LoginView(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Register Link
                 TextButton(
                     onClick = { navController.navigate("Register") }
                 ) {
@@ -117,7 +118,6 @@ fun LoginView(
                     )
                 }
 
-                // Loader and Errors
                 if (state.error != null) {
                     Text(
                         text = state.error ?: "",

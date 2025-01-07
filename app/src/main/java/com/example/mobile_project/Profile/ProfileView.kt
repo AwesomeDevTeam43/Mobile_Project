@@ -1,4 +1,3 @@
-// ProfileView.kt
 package com.example.mobile_project.Profile
 
 import androidx.compose.foundation.Image
@@ -10,7 +9,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -20,7 +18,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
@@ -32,6 +29,9 @@ import coil.compose.rememberImagePainter
 import com.example.mobile_project.Components.BottomBar
 import com.example.mobile_project.Components.TopBar
 import com.example.mobile_project.ui.theme.Mobile_ProjectTheme
+import com.example.mobile_project.ui.theme.Orange01
+import com.example.mobile_project.ui.theme.Red01
+import com.example.mobile_project.ui.theme.White01
 
 @Composable
 fun ProfileView(
@@ -47,15 +47,7 @@ fun ProfileView(
         topBar = {
             TopBar(
                 title = "Profile",
-                actions = {
-                    IconButton(onClick = { /* Ação para notificações */ }) {
-                        Icon(
-                            imageVector = Icons.Default.Notifications,
-                            contentDescription = "Notifications",
-                            tint = Color.White
-                        )
-                    }
-                }
+
             )
         },
         bottomBar = { BottomBar(navController) }
@@ -128,14 +120,7 @@ fun ProfileViewContent(
                     modifier = Modifier
                         .size(100.dp)
                         .clip(CircleShape)
-                        .background(
-                            Brush.linearGradient(
-                                listOf(
-                                    MaterialTheme.colorScheme.primary,
-                                    MaterialTheme.colorScheme.secondary,
-                                )
-                            )
-                        ),
+                        .background(Orange01),
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
@@ -148,7 +133,6 @@ fun ProfileViewContent(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // User Information Card
                 Card(
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(16.dp),
@@ -174,16 +158,15 @@ fun ProfileViewContent(
 
                 Spacer(modifier = Modifier.height(24.dp))
 
-                // List Favorites Button
                 Button(
                     onClick = { navController.navigate("favorites") },
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(50.dp)
-                        .shadow(elevation = 4.dp, shape = RoundedCornerShape(8.dp)),
+                        .shadow(elevation = 0.dp, shape = RoundedCornerShape(8.dp)),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.primary,
-                        contentColor = MaterialTheme.colorScheme.onPrimary
+                        containerColor = Orange01,
+                        contentColor = White01
                     )
                 ) {
                     Text(
@@ -194,16 +177,15 @@ fun ProfileViewContent(
 
                 Spacer(modifier = Modifier.height(24.dp))
 
-                // Logout Button
                 Button(
                     onClick = onLogout,
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(50.dp)
-                        .shadow(elevation = 4.dp, shape = RoundedCornerShape(8.dp)),
+                        .shadow(elevation = 0.dp, shape = RoundedCornerShape(8.dp)),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.primary,
-                        contentColor = MaterialTheme.colorScheme.onPrimary
+                        containerColor = Red01,
+                        contentColor = White01
                     )
                 ) {
                     Text(
@@ -223,13 +205,13 @@ fun UserInfoRow(icon: ImageVector, content: String) {
             modifier = Modifier
                 .size(40.dp)
                 .clip(CircleShape)
-                .background(MaterialTheme.colorScheme.primaryContainer),
+                .background(Orange01),
             contentAlignment = Alignment.Center
         ) {
             Icon(
                 imageVector = icon,
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.onPrimaryContainer
+                tint = White01
             )
         }
         Spacer(modifier = Modifier.width(8.dp))

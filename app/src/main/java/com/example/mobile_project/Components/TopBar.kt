@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -27,7 +26,7 @@ fun TopBar(
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = Orange01
         ),
-        windowInsets = WindowInsets(0, 0, 0, 0) // Remove qualquer margem do sistema
+        windowInsets = WindowInsets(0, 0, 0, 0)
     )
 }
 
@@ -37,16 +36,16 @@ fun TopBarPreview() {
     TopBar(
         title = "Home",
         actions = {
-            IconButton(onClick = { /* Ação para pesquisar */ }) {
+            IconButton(onClick = { /* serch */ }) {
                 Icon(
                     imageVector = Icons.Default.Search,
                     contentDescription = "Search",
                     tint = Color.White
                 )
             }
-            IconButton(onClick = { /* Ação para configurações */ }) {
+            IconButton(onClick = { /* congif */ }) {
                 Icon(
-                    imageVector = Icons.Default.MoreVert, // Ícone de 3 pontos
+                    imageVector = Icons.Default.MoreVert,
                     contentDescription = "More",
                     tint = Color.White
                 )

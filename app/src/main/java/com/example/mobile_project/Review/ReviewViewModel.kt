@@ -19,7 +19,6 @@ class ReviewsViewModel : ViewModel() {
                 .await()
             val reviews = snapshot.toObjects(Review::class.java)
 
-            // Fetch user details for each review
             val reviewsWithUserDetails = reviews.map { review ->
                 val userSnapshot = firestore.collection("users").document(review.userId!!).get().await()
                 val userName = userSnapshot.getString("username") ?: "Anonymous"

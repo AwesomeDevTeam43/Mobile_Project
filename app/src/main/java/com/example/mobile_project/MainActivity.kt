@@ -1,4 +1,3 @@
-// MainActivity.kt
 package com.example.mobile_project
 
 import android.os.Bundle

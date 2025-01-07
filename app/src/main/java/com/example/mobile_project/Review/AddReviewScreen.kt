@@ -2,7 +2,6 @@ package com.example.mobile_project.Review
 
 import android.util.Log
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
 import androidx.compose.material3.Button
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Text

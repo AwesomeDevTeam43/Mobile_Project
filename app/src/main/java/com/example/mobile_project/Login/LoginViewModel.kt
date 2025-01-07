@@ -16,13 +16,6 @@ data class LoginState(
 )
 
 class LoginViewModel : ViewModel() {
-    init {
-        //signOutUser()
-    }
-    private fun signOutUser() {
-        val auth: FirebaseAuth = Firebase.auth
-        auth.signOut()
-    }
     var state = mutableStateOf(LoginState())
         private set
 
