@@ -35,6 +35,7 @@ fun AddReviewScreen(productId: String, onReviewAdded: () -> Unit) {
     var reviewText by remember { mutableStateOf("") }
     var rating by remember { mutableStateOf(0f) }
     var hasReviewed by remember { mutableStateOf(false) }
+    var hasBeenPressed by remember {mutableStateOf(false)}
 
     LaunchedEffect(Unit) {
         viewModel.hasUserReviewed(productId, userId) { reviewed ->
@@ -78,25 +79,29 @@ fun AddReviewScreen(productId: String, onReviewAdded: () -> Unit) {
                 Spacer(modifier = Modifier.height(25.dp))
                 Button(
                     onClick = {
-                        val review = Review(
-                            productId = productId,
-                            userId = userId,
-                            userName = userName,
-                            userIcon = userIcon,
-                            reviewText = reviewText,
-                            rating = rating,
-                            hasReviewed = true
-                        )
-                        Log.d("AddReviewScreen", "Submitting review: $review")
-                        viewModel.addReview(
-                            review,
-                            onSuccess = onReviewAdded,
-                            onFailure = { exception ->
-                                Log.e(
-                                    "AddReviewScreen",
-                                    "Failed to add review: ${exception.message}"
-                                )
-                            })
+                        if (!hasBeenPressed) {
+                            hasBeenPressed = true
+                            val review = Review(
+                                productId = productId,
+                                userId = userId,
+                                userName = userName,
+                                userIcon = userIcon,
+                                reviewText = reviewText,
+                                rating = rating,
+                                hasReviewed = true
+                            )
+                            Log.d("AddReviewScreen", "Submitting review: $review")
+                            viewModel.addReview(
+                                review,
+                                onSuccess = onReviewAdded,
+                                onFailure = { exception ->
+                                    Log.e(
+                                        "AddReviewScreen",
+                                        "Failed to add review: ${exception.message}"
+                                    )
+                                    hasBeenPressed = false
+                                })
+                        }
                     },
                     modifier = Modifier.align(Alignment.CenterHorizontally),
                     colors = ButtonDefaults.buttonColors(
