@@ -60,7 +60,7 @@ Na BottomBar o utilizador pode tambem alternar entre a página Home e a página 
 
 #
 
-Ao carregar no botao back do Android o utilzador irá receber um pedido de confirmação para dar logout.
+Ao carregar dar back no Android o utilzador irá receber um pedido de confirmação para dar logout.
 
 ![image](https://github.com/user-attachments/assets/c819f92a-4b2d-4a86-80a4-a49082044cb4)
 
