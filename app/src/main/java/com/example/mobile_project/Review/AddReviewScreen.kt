@@ -1,17 +1,27 @@
 package com.example.mobile_project.Review
 
+import RatingBar
 import android.util.Log
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
-import androidx.compose.material3.Slider
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.mobile_project.ui.theme.Black01
+import com.example.mobile_project.ui.theme.Orange01
+import com.example.mobile_project.ui.theme.White01
 import com.google.firebase.auth.FirebaseAuth
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddReviewScreen(productId: String, onReviewAdded: () -> Unit) {
     val viewModel: AddReviewScreenModel = viewModel()
@@ -32,41 +42,70 @@ fun AddReviewScreen(productId: String, onReviewAdded: () -> Unit) {
         }
     }
 
-    if (hasReviewed) {
-        Text("You have already reviewed this product.")
-    } else {
-        Column(modifier = Modifier.padding(16.dp)) {
-            TextField(
-                value = reviewText,
-                onValueChange = { reviewText = it },
-                label = { Text("Review") },
-                modifier = Modifier.fillMaxWidth()
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            Slider(
-                value = rating,
-                onValueChange = { rating = it },
-                valueRange = 0f..5f,
-                steps = 4,
-                modifier = Modifier.fillMaxWidth()
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            Button(onClick = {
-                val review = Review(
-                    productId = productId,
-                    userId = userId,
-                    userName = userName,
-                    userIcon = userIcon,
-                    reviewText = reviewText,
-                    rating = rating,
-                    hasReviewed = true
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = White01),
+        contentAlignment = Alignment.Center
+    ) {
+        if (hasReviewed) {
+            Text("You have already reviewed this product.")
+        } else {
+            Column(modifier = Modifier
+                .padding(16.dp)
+                .background(color = White01)) {
+                TextField(
+                    value = reviewText,
+                    onValueChange = { reviewText = it },
+                    label = { Text("Review") },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(color = White01),
+                    textStyle = androidx.compose.ui.text.TextStyle(color = Color.Black),
+                    colors = TextFieldDefaults.textFieldColors(
+                        containerColor = White01,
+                        cursorColor = Black01,
+                        focusedIndicatorColor = Black01,
+                        unfocusedIndicatorColor = Color.Gray
+                    )
                 )
-                Log.d("AddReviewScreen", "Submitting review: $review")
-                viewModel.addReview(review, onSuccess = onReviewAdded, onFailure = { exception ->
-                    Log.e("AddReviewScreen", "Failed to add review: ${exception.message}")
-                })
-            }) {
-                Text("Submit Review")
+                Spacer(modifier = Modifier.height(25.dp))
+                RatingBar(
+                    rating = rating,
+                    onRatingChanged = { rating = it },
+                    modifier = Modifier.fillMaxWidth()
+                )
+                Spacer(modifier = Modifier.height(25.dp))
+                Button(
+                    onClick = {
+                        val review = Review(
+                            productId = productId,
+                            userId = userId,
+                            userName = userName,
+                            userIcon = userIcon,
+                            reviewText = reviewText,
+                            rating = rating,
+                            hasReviewed = true
+                        )
+                        Log.d("AddReviewScreen", "Submitting review: $review")
+                        viewModel.addReview(
+                            review,
+                            onSuccess = onReviewAdded,
+                            onFailure = { exception ->
+                                Log.e(
+                                    "AddReviewScreen",
+                                    "Failed to add review: ${exception.message}"
+                                )
+                            })
+                    },
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Orange01,
+                        contentColor = White01
+                    )
+                ) {
+                    Text("Submit Review")
+                }
             }
         }
     }
