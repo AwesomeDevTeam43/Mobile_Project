@@ -28,6 +28,8 @@ import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberImagePainter
 import com.example.mobile_project.Components.BottomBar
 import com.example.mobile_project.Components.TopBar
+import com.example.mobile_project.ui.theme.Black01
+import com.example.mobile_project.ui.theme.Gray01
 import com.example.mobile_project.ui.theme.Mobile_ProjectTheme
 import com.example.mobile_project.ui.theme.Orange01
 import com.example.mobile_project.ui.theme.Red01
@@ -37,7 +39,7 @@ import com.example.mobile_project.ui.theme.White01
 fun ProfileView(
     modifier: Modifier = Modifier
         .fillMaxSize()
-        .background(color = MaterialTheme.colorScheme.background),
+        .background(color = White01),
     navController: NavController = rememberNavController(),
     bottomBar: @Composable () -> Unit = {}
 ) {
@@ -70,7 +72,7 @@ fun ProfileViewContent(
     onLogout: () -> Unit
 ) {
     Box(
-        modifier = modifier.background(Color.White),
+        modifier = modifier.background(White01),
         contentAlignment = Alignment.Center
     ) {
         if (uiState.isLoading) {
@@ -102,7 +104,6 @@ fun ProfileViewContent(
                     .fillMaxSize()
                     .padding(16.dp)
             ) {
-                // Avatar or Profile Picture
                 uiState.profileImageUrl?.let { url ->
                     Image(
                         painter = rememberImagePainter(url),
@@ -133,7 +134,7 @@ fun ProfileViewContent(
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(16.dp),
                     elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
-                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+                    colors = CardDefaults.cardColors(containerColor = Gray01)
                 ) {
                     Column(
                         modifier = Modifier
@@ -214,7 +215,7 @@ fun UserInfoRow(icon: ImageVector, content: String) {
         Text(
             text = content,
             style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.onSurface
+            color = Black01
         )
     }
 }

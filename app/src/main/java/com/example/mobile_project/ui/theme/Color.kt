@@ -12,9 +12,11 @@ val Pink40 = Color(0xFF7D5260)
 
 //our colors
 val Orange01 = Color(0xFFFF7B1A)
+val Orange02 = Color(0xFFD96200)
 val White01 = Color(0xFFFFFFFF)
 val Blue01 = Color(0xFF0096FF)
 val Blue02 = Color(0xFF455E90)
 val Red01 = Color(0xFFE20C00)
 val Black01 = Color(0xFF000000)
 val Yellow01 = Color(0xFFFFD700)
+val Gray01 = Color(0xFFE2E2E2)

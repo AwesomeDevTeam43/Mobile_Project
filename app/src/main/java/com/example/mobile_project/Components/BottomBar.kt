@@ -19,6 +19,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.mobile_project.ui.theme.Orange01
+import com.example.mobile_project.ui.theme.Orange02
+import com.example.mobile_project.ui.theme.White01
 
 @Composable
 fun BottomBar(navController: NavController = rememberNavController()) {
@@ -43,7 +45,11 @@ fun BottomBar(navController: NavController = rememberNavController()) {
                     contentDescription = "Home",
                     tint = Color.White
                 )
-            }
+            },
+            colors = NavigationBarItemDefaults.colors(
+                indicatorColor = Orange02,
+            )
+
         )
         NavigationBarItem(
             selected = selectedIndex == 1,
@@ -60,7 +66,10 @@ fun BottomBar(navController: NavController = rememberNavController()) {
                     contentDescription = "Profile",
                     tint = Color.White
                 )
-            }
+            },
+            colors = NavigationBarItemDefaults.colors(
+                indicatorColor = Orange02,
+            )
         )
     }
 }
