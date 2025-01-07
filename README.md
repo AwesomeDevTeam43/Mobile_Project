@@ -58,9 +58,12 @@ Na BottomBar o utilizador pode tambem alternar entre a página Home e a página 
 ![image](https://github.com/user-attachments/assets/7ac40545-af2c-4a4d-8fea-f4e3a8ed48df)
 ![image](https://github.com/user-attachments/assets/53f1bf13-8cd2-4147-894e-09241f6f3180)
 
-
-
 #
+
+Ao carregar no botao back do Android o utilzador irá receber um pedido de confirmação para dar logout.
+
+![image](https://github.com/user-attachments/assets/c819f92a-4b2d-4a86-80a4-a49082044cb4)
+
 
 
 
