@@ -30,9 +30,10 @@ Ao inicializar a APP o utilizador será solicitado a realizar o login, caso não
 
 #
 
-Após efetuar o Login o utilizador será redirecionado para a página Home onde os produtos são exibidos. //yapping sobre api para firebase
+Após efetuar o Login o utilizador será redirecionado para a página Home onde os produtos são exibidos. Os produtos são importados diretamente da Firebase.
 
-![image](https://github.com/user-attachments/assets/ecb945d1-5825-4562-a71e-6dec1468bf34)
+![image](https://github.com/user-attachments/assets/8096179c-4b0b-4606-975d-893b5bbbbe31)
+
 
 #
 
@@ -42,4 +43,24 @@ Na TopBar o utilizador conta com ferramentas para ajudar na procura por um produ
 ![image](https://github.com/user-attachments/assets/93e57888-cd3d-4da2-a4d0-2cc6a681a717)
 
 #
+
+Ao clicar em um produto, o utilizador irá acessar uma página com informações mais detalhadas acerca do produto. Terá tambem um botão que adiciona o determinado produto á sua lista de favoritos que pode ser consultada no Menu de Profile e estão disponiveis as reviews deixadas por outro utilizadores e um botão para adicionar a própria review. 
+
+![image](https://github.com/user-attachments/assets/6c142948-786d-4490-8e66-cbee21ac8f99)
+![image](https://github.com/user-attachments/assets/5ddaa779-f945-4c61-ad38-735ff8c1b932)
+
+
+
+#
+
+Na BottomBar o utilizador pode tambem alternar entre a página Home e a página Profile que contem as suas informações, o botão que dá acesso á lista de produtos favoritos e um botão de Logout. A lista de favoritos esta estruturada de maneira semelhante á página Home, mas apenas mostra os produtos que o utilizador tem marcados como favoritos.
+
+![image](https://github.com/user-attachments/assets/7ac40545-af2c-4a4d-8fea-f4e3a8ed48df)
+![image](https://github.com/user-attachments/assets/53f1bf13-8cd2-4147-894e-09241f6f3180)
+
+
+
+#
+
+
 
