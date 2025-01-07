@@ -3,6 +3,7 @@ package com.example.mobile_project.Products
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -31,6 +32,27 @@ class ProductViewModel : ViewModel() {
                 .addOnFailureListener {
                     Log.d("ProductViewModel", "Failed to fetch product")
                 }
+        }
+    }
+
+    fun addToFavorites(productId: String) {
+        val user = FirebaseAuth.getInstance().currentUser
+        if (user != null) {
+            val userFavoritesRef = FirebaseFirestore.getInstance()
+                .collection("users")
+                .document(user.uid)
+                .collection("favorites")
+                .document(productId)
+
+            userFavoritesRef.set(mapOf("productId" to productId))
+                .addOnSuccessListener {
+                    Log.d("ProductViewModel", "Product added to favorites")
+                }
+                .addOnFailureListener { e ->
+                    Log.d("ProductViewModel", "Failed to add product to favorites", e)
+                }
+        } else {
+            Log.d("ProductViewModel", "User not logged in")
         }
     }
 

@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.mobile_project.Favorites.FavoritesView
 import com.example.mobile_project.Home.HomeView
 import com.example.mobile_project.Login.LoginView
 import com.example.mobile_project.Profile.ProfileView
@@ -65,7 +66,7 @@ class MainActivity : ComponentActivity() {
                             ProductView(navController = navController, productId = productId)
                         }
                         composable(Screen.Favorites.route) {
-                            ProfileView(navController = navController)
+                            FavoritesView(navController = navController)
                         }
                         composable(Screen.Profile.route) {
                             ProfileView(navController = navController)

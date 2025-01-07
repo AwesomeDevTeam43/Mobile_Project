@@ -2,19 +2,20 @@ package com.example.mobile_project.Profile
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.mobile_project.Products.Product
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import com.google.firebase.firestore.FirebaseFirestore
-
 
 data class ProfileState(
     val username: String = "",
     val email: String = "",
     val isLoading: Boolean = false,
     val error: String? = null,
-    val profileImageUrl: String? = null
+    val profileImageUrl: String? = null,
+    val favoriteProducts: List<Product> = emptyList()
 )
 
 class ProfileViewModel : ViewModel() {
@@ -43,6 +44,7 @@ class ProfileViewModel : ViewModel() {
                                 profileImageUrl = profileImageUrl,
                                 isLoading = false
                             )
+                            fetchFavorites(user.uid)
                         }
                         .addOnFailureListener { exception ->
                             _uiState.value = ProfileState(
@@ -57,6 +59,18 @@ class ProfileViewModel : ViewModel() {
                 _uiState.value = ProfileState(error = e.message, isLoading = false)
             }
         }
+    }
+
+    private fun fetchFavorites(userId: String) {
+        firestore.collection("users").document(userId).collection("favorites")
+            .get()
+            .addOnSuccessListener { result ->
+                val favoriteProducts = result.toObjects(Product::class.java)
+                _uiState.value = _uiState.value.copy(favoriteProducts = favoriteProducts)
+            }
+            .addOnFailureListener { exception ->
+                _uiState.value = _uiState.value.copy(error = exception.message)
+            }
     }
 
     fun logout() {

@@ -1,3 +1,4 @@
+// ProfileView.kt
 package com.example.mobile_project.Profile
 
 import androidx.compose.foundation.Image
@@ -67,7 +68,8 @@ fun ProfileView(
                 navController.navigate("login") {
                     popUpTo("home") { inclusive = true }
                 }
-            }
+            },
+            navController = navController
         )
     }
 }
@@ -76,6 +78,7 @@ fun ProfileView(
 fun ProfileViewContent(
     modifier: Modifier = Modifier,
     uiState: ProfileState,
+    navController: NavController,
     onLogout: () -> Unit
 ) {
     Box(
@@ -171,6 +174,26 @@ fun ProfileViewContent(
 
                 Spacer(modifier = Modifier.height(24.dp))
 
+                // List Favorites Button
+                Button(
+                    onClick = { navController.navigate("favorites") },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(50.dp)
+                        .shadow(elevation = 4.dp, shape = RoundedCornerShape(8.dp)),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.primary,
+                        contentColor = MaterialTheme.colorScheme.onPrimary
+                    )
+                ) {
+                    Text(
+                        text = "List Favorites",
+                        style = MaterialTheme.typography.labelLarge
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(24.dp))
+
                 // Logout Button
                 Button(
                     onClick = onLogout,
@@ -229,7 +252,8 @@ fun ProfileViewPreview() {
                 isLoading = false,
                 error = null
             ),
-            onLogout = {}
+            onLogout = {},
+            navController = rememberNavController()
         )
     }
 }

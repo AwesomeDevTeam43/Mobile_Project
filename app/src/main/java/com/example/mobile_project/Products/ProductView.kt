@@ -101,7 +101,7 @@ fun ProductView(
                         color = MaterialTheme.colorScheme.primary
                     )
                     Spacer(modifier = Modifier.height(15.dp))
-                    Button(onClick = { /*add to favorites*/ }) {
+                    Button(onClick = { viewModel.addToFavorites(product.id!!) }) {
                         Text("Add to Favorites")
                     }
                     product.id?.let { ReviewsSection(productId = it, navController = navController) }
