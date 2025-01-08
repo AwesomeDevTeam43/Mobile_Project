@@ -64,6 +64,153 @@ Ao carregar dar back no Android o utilzador irá receber um pedido de confirmaç
 
 ![image](https://github.com/user-attachments/assets/c819f92a-4b2d-4a86-80a4-a49082044cb4)
 
+#
+
+Todos, os produtos exibido na nossa App, como foi referido anteriormente, estão guardados na Firebase, porém inicialmente foram extraidos de 2 APIs através de programas esternos gerados por IA.
+
+A primeira API que usamos foi retirada do site https://fakeapi.platzi.com/, onde usamos um script em JavaScript que importa todos os produtos e as suas categorias para a nossa base de dados.
+
+```JavaScript
+const axios = require('axios');
+const { initializeApp } = require('firebase/app');
+const { getFirestore, collection, addDoc, getDocs, query, where } = require('firebase/firestore');
+
+// Configuração Firebase
+const firebaseConfig = {
+    apiKey: "AIzaSyAVRui7juWiuuYxfLnLyTcJ29qFbPcj7rE",
+    authDomain: "mobile-project-socialshop.firebaseapp.com",
+    projectId: "mobile-project-socialshop",
+    storageBucket: "mobile-project-socialshop.firebasestorage.app",
+    messagingSenderId: "550755317362",
+    appId: "1:550755317362:web:a002914c461027032674eb",
+    measurementId: "G-1C372MKPNH"
+  };
+
+// Inicializar Firebase
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const importData = async () => {
+  try {
+    // Fetch produtos da API
+    const response = await axios.get('https://api.escuelajs.co/api/v1/products');
+    const products = response.data;
+
+    // Criar categorias e associar IDs
+    const categoryMap = new Map(); // Guardar IDs das categorias para evitar duplicados
+    for (const product of products) {
+      const categoryName = product.category.name;
+
+      if (!categoryMap.has(categoryName)) {
+        // Adicionar categoria ao Firestore
+        const categoryDoc = await addDoc(collection(db, "categories"), {
+          name: categoryName,
+          image: product.category.image,
+        });
+
+        // Guardar o ID da categoria
+        categoryMap.set(categoryName, categoryDoc.id);
+      }
+    }
+
+    // Adicionar produtos ao Firestore com referência à categoria
+    for (const product of products) {
+      const categoryName = product.category.name;
+      const categoryId = categoryMap.get(categoryName);
+
+      await addDoc(collection(db, "products"), {
+        title: product.title,
+        price: product.price,
+        description: product.description,
+        images: product.images,
+        category: categoryId, // Referência ao ID da categoria
+      });
+    }
+
+    console.log('Categorias e produtos importados com sucesso!');
+  } catch (error) {
+    console.error('Erro ao importar dados:', error);
+  }
+};
+
+importData();
+
+```
+
+Como a primeira API tinha poucos produtos e muitos deles eram apenas produtos de teste, sem imagem nem descrição, então procuramos outra API.
+
+A API que escolhemos usar foi a https://fakestoreapi.in/, mas esta estava em um formato diferente, um ficheiro em typescript com todos os dados dos produtos, para importar isso usamos outro codigo gerado por IA, desta vez em Python para ser capaz de ler o ficheiro e selecionar apenas as informações nessessarias e importa-las para a nossa Firebase.
 
 
+``` Python
+import time
+import json
+import re
+import firebase_admin
+from firebase_admin import credentials, firestore
+
+# Initialize Firebase Admin
+cred = credentials.Certificate("path/to/your/firebase-admin-sdk.json")
+firebase_admin.initialize_app(cred)
+db = firestore.client()
+
+# Path to the TypeScript file
+typescript_file_path = "products.ts"
+
+def extract_products_from_typescript(file_path):
+    """
+    Reads the TypeScript file, extracts the Products array, and parses it into Python objects.
+    """
+    with open(file_path, "r", encoding="utf-8") as file:
+        content = file.read()
+
+    # Regex to extract the JSON-like array from the TypeScript file
+    match = re.search(r"export const Products = (\[.*?\]);", content, re.DOTALL)
+    if not match:
+        raise ValueError("Could not find 'Products' array in the TypeScript file.")
+
+    products_json = match.group(1)
+    return json.loads(products_json)
+
+def add_products_to_firestore(products):
+    """
+    Adds products to Firestore, creating categories if they don't already exist.
+    """
+    for product in products:
+        try:
+            print(f"Processing product: {product['title']}")
+
+            # Check if category exists or create it
+            category_query = db.collection("categories").where("name", "==", product["category"]).get()
+            if category_query:
+                category_id = category_query[0].id
+            else:
+                category_doc = db.collection("categories").add({"name": product["category"], "image": ""})
+                category_id = category_doc[1].id
+
+            # Add product
+            db.collection("products").add({
+                "title": product["title"],
+                "price": product["price"],
+                "description": product["description"],
+                "images": [product["image"]],
+                "category": category_id,
+            })
+            
+            print(f"Successfully added product: {product['title']}")
+        except Exception as e:
+            print(f"Error adding product {product['title']}: {e}")
+        
+        # Add delay
+        time.sleep(0.2)
+
+# Main logic
+if __name__ == "__main__":
+    try:
+        products = extract_products_from_typescript(typescript_file_path)
+        print(f"Found {len(products)} products to process.")
+        add_products_to_firestore(products)
+    except Exception as e:
+        print(f"An error occurred: {e}")
+```
 
